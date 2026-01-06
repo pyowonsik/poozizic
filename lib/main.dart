@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: '똥 플랜',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF8B4513),
           primary: const Color(0xFF8B4513),

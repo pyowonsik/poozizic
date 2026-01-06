@@ -6,51 +6,35 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+     appBar: AppBar(
+  iconTheme: IconThemeData(color: Colors.black),
+  title: Image.asset(
+    'assets/image/뿌지직.png',
+    height: 50, // 로고 크기 조절
+    fit: BoxFit.contain,
+    
+  ),
+  backgroundColor: Colors.white,
+  centerTitle: false,
+),
+
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.fromARGB(255, 250, 245, 241),
+              Colors.white,
+            ],
+          ),
+        ),
+        child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 헤더
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFFF5E6D3), Color(0xFFFFE4CC)],
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      '안녕하세요! 👋',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF654321),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      '오늘도 건강한 하루 보내세요',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.brown[700],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
+              SizedBox(height: 20),
               // 오늘의 상태 카드
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -204,6 +188,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 
