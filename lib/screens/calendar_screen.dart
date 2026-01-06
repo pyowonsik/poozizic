@@ -37,12 +37,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
           '캘린더',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color(0xFF654321),
+            color: Colors.black,
           ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        centerTitle: true,
+        centerTitle: false,
       ),
       body: Column(
         children: [
