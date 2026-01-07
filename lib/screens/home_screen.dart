@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  DateTime _selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -164,21 +172,85 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // 빠른 액션
+              // 최근 기록
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 1.3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildQuickActionCard('🚽', '배변 기록'),
-                    _buildQuickActionCard('🍽️', '식단 기록'),
-                    _buildQuickActionCard('💧', '물 마심'),
-                    _buildQuickActionCard('🏃', '운동 기록'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          '최근 기록',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF333333),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // 캘린더 화면으로 이동
+                          },
+                          child: const Text(
+                            '캘린더로 보기',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF666666),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    // 날짜 네비게이션
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 5,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.chevron_left),
+                            onPressed: () {
+                              setState(() {
+                                _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+                              });
+                            },
+                          ),
+                          Text(
+                            _getDateText(_selectedDate),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF333333),
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.chevron_right),
+                            onPressed: () {
+                              setState(() {
+                                _selectedDate = _selectedDate.add(const Duration(days: 1));
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // 기록 목록 - 하나의 카드 안에 통합
+                    _buildRecentRecordsCard(),
                   ],
                 ),
               ),
@@ -215,38 +287,208 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActionCard(String emoji, String label) {
+  String _getDateText(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final selected = DateTime(date.year, date.month, date.day);
+    
+    if (selected == today) {
+      return DateFormat('M월 d일(E), 오늘', 'ko_KR').format(date);
+    } else {
+      return DateFormat('M월 d일(E)', 'ko_KR').format(date);
+    }
+  }
+
+  Widget _buildRecentRecordsCard() {
+    // 샘플 데이터 - 실제로는 선택된 날짜에 따라 동적으로 가져와야 함
+    final records = [
+      _RecordItem(
+        type: 'bowel',
+        emoji: '🌭',
+        name: '배변 기록',
+        time: '오전 8:30',
+        detail: 'Bristol Type 4 - 부드럽고 매끈',
+        color: const Color(0xFF90EE90),
+      ),
+      _RecordItem(
+        type: 'meal',
+        emoji: '🍽️',
+        name: '식단 기록',
+        time: '오후 12:30',
+        detail: '김치찌개, 밥, 계란후라이',
+        color: const Color(0xFFFFB347),
+      ),
+      _RecordItem(
+        type: 'water',
+        emoji: '💧',
+        name: '물마심 기록',
+        time: '오후 3:00',
+        detail: '500ml',
+        color: const Color(0xFF87CEEB),
+      ),
+      _RecordItem(
+        type: 'exercise',
+        emoji: '🏃',
+        name: '운동 기록',
+        time: '오후 6:00',
+        detail: '걷기 30분',
+        color: const Color(0xFF9370DB),
+      ),
+    ];
+
+    if (records.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(32),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 5,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: const Center(
+          child: Text(
+            '기록이 없습니다',
+            style: TextStyle(
+              fontSize: 14,
+              color: Color(0xFF999999),
+            ),
+          ),
+        ),
+      );
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[300]!, width: 2),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: () {},
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
+        children: records.asMap().entries.map((entry) {
+          final index = entry.key;
+          final record = entry.value;
+          final isLast = index == records.length - 1;
+          
+          return Column(
+            children: [
+              _buildRecordItem(record),
+              if (!isLast)
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: Colors.grey[200],
+                  indent: 60,
+                ),
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildRecordItem(_RecordItem record) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: record.color.withOpacity(0.15),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                record.emoji,
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  record.detail,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF333333),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  record.name,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF999999),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Row(
             children: [
               Text(
-                emoji,
-                style: const TextStyle(fontSize: 32),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                label,
+                record.time,
                 style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF333333),
+                  fontSize: 12,
+                  color: Color(0xFF999999),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.grey[300]!,
+                    width: 1,
+                  ),
+                ),
+                child: const Icon(
+                  Icons.check,
+                  size: 16,
+                  color: Colors.white,
                 ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
+}
+
+class _RecordItem {
+  final String type;
+  final String emoji;
+  final String name;
+  final String time;
+  final String detail;
+  final Color color;
+
+  _RecordItem({
+    required this.type,
+    required this.emoji,
+    required this.name,
+    required this.time,
+    required this.detail,
+    required this.color,
+  });
 }
