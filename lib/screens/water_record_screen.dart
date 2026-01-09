@@ -44,13 +44,10 @@ class _WaterRecordScreenState extends State<WaterRecordScreen> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF2196F3).withOpacity(0.1),
+                      color: const Color(0xFF2196F3).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text(
-                      '💧',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    child: const Text('💧', style: TextStyle(fontSize: 20)),
                   ),
                   const SizedBox(width: 12),
                   const Text(
@@ -73,20 +70,13 @@ class _WaterRecordScreenState extends State<WaterRecordScreen> {
                   gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF2196F3),
-                      Color(0xFF00BCD4),
-                    ],
+                    colors: [Color(0xFF2196F3), Color(0xFF00BCD4)],
                   ),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Column(
                   children: [
-                    const Icon(
-                      Icons.water_drop,
-                      color: Colors.white,
-                      size: 40,
-                    ),
+                    const Icon(Icons.water_drop, color: Colors.white, size: 40),
                     const SizedBox(height: 12),
                     Text(
                       '${_waterAmount.toInt()}',
@@ -98,10 +88,7 @@ class _WaterRecordScreenState extends State<WaterRecordScreen> {
                     ),
                     const Text(
                       'ml',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ],
                 ),
@@ -115,7 +102,7 @@ class _WaterRecordScreenState extends State<WaterRecordScreen> {
                   activeTrackColor: const Color(0xFF2196F3),
                   inactiveTrackColor: const Color(0xFFB3E5FC),
                   thumbColor: const Color(0xFF2196F3),
-                  overlayColor: const Color(0xFF2196F3).withOpacity(0.2),
+                  overlayColor: const Color(0xFF2196F3).withValues(alpha: 0.2),
                   thumbShape: const RoundSliderThumbShape(
                     enabledThumbRadius: 12,
                   ),
@@ -141,17 +128,11 @@ class _WaterRecordScreenState extends State<WaterRecordScreen> {
                   children: const [
                     Text(
                       '50ml',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF999999),
-                      ),
+                      style: TextStyle(fontSize: 12, color: Color(0xFF999999)),
                     ),
                     Text(
                       '1000ml',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF999999),
-                      ),
+                      style: TextStyle(fontSize: 12, color: Color(0xFF999999)),
                     ),
                   ],
                 ),
@@ -191,7 +172,7 @@ class _WaterRecordScreenState extends State<WaterRecordScreen> {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? const Color(0xFF2196F3).withOpacity(0.1)
+                            ? const Color(0xFF2196F3).withValues(alpha: 0.1)
                             : Colors.white,
                         border: Border.all(
                           color: isSelected
@@ -291,7 +272,11 @@ class _WaterRecordScreenState extends State<WaterRecordScreen> {
                         content: Text('${_waterAmount.toInt()}ml가 기록되었습니다'),
                         backgroundColor: const Color(0xFF4CAF50),
                         behavior: SnackBarBehavior.floating,
-                        margin: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
+                        margin: const EdgeInsets.only(
+                          bottom: 30,
+                          left: 20,
+                          right: 20,
+                        ),
                       ),
                     );
                   },
@@ -328,4 +313,3 @@ class _WaterRecordScreenState extends State<WaterRecordScreen> {
     );
   }
 }
-

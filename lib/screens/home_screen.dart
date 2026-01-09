@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                
+
                 // 오늘의 상태
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha: 0.05),
                               blurRadius: 10,
                               offset: const Offset(0, 2),
                             ),
@@ -65,7 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: Column(
                           children: [
-                            _buildStatRow('마지막 배변', '2시간 전', const Color(0xFF27AE60)),
+                            _buildStatRow(
+                              '마지막 배변',
+                              '2시간 전',
+                              const Color(0xFF27AE60),
+                            ),
                             const SizedBox(height: 16),
                             _buildStatRow('연속 기록', '7일째 🔥', null),
                             const SizedBox(height: 16),
@@ -133,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 const SizedBox(height: 20),
-                
+
                 // 이상적인 배변 상태 카드
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -186,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: Colors.black.withValues(alpha: 0.05),
                             blurRadius: 10,
                             offset: const Offset(0, 2),
                           ),
@@ -267,9 +271,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   const SizedBox(height: 12),
                                   _buildFeedbackItem(
-                                      '이상적인 배변 상태를 유지하고 있습니다', true),
+                                    '이상적인 배변 상태를 유지하고 있습니다',
+                                    true,
+                                  ),
                                   _buildFeedbackItem(
-                                      '규칙적인 배변 패턴을 보이고 있습니다', true),
+                                    '규칙적인 배변 패턴을 보이고 있습니다',
+                                    true,
+                                  ),
                                   _buildFeedbackItem('물을 조금 더 마셔보세요', false),
                                   _buildFeedbackItem('편안한 배변을 하고 있습니다', true),
                                 ],
@@ -328,14 +336,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 2),
                         ),
@@ -348,8 +358,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: const Icon(Icons.chevron_left),
                           onPressed: () {
                             setState(() {
-                              _selectedDate = _selectedDate
-                                  .subtract(const Duration(days: 1));
+                              _selectedDate = _selectedDate.subtract(
+                                const Duration(days: 1),
+                              );
                             });
                           },
                         ),
@@ -365,8 +376,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: const Icon(Icons.chevron_right),
                           onPressed: () {
                             setState(() {
-                              _selectedDate =
-                                  _selectedDate.add(const Duration(days: 1));
+                              _selectedDate = _selectedDate.add(
+                                const Duration(days: 1),
+                              );
                             });
                           },
                         ),
@@ -415,10 +427,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: Row(
                           children: const [
-                            Text(
-                              '💡',
-                              style: TextStyle(fontSize: 24),
-                            ),
+                            Text('💡', style: TextStyle(fontSize: 24)),
                             SizedBox(width: 12),
                             Expanded(
                               child: Column(
@@ -475,10 +484,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Color(0xFF666666),
-          ),
+          style: const TextStyle(fontSize: 14, color: Color(0xFF666666)),
         ),
         Text(
           value,
@@ -498,10 +504,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Color(0xFF666666),
-          ),
+          style: const TextStyle(fontSize: 14, color: Color(0xFF666666)),
         ),
         Text(
           score,
@@ -524,16 +527,15 @@ class _HomeScreenState extends State<HomeScreen> {
           Icon(
             isPositive ? Icons.check : Icons.warning_amber_rounded,
             size: 16,
-            color: isPositive ? const Color(0xFF27AE60) : const Color(0xFFF39C12),
+            color: isPositive
+                ? const Color(0xFF27AE60)
+                : const Color(0xFFF39C12),
           ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
-                fontSize: 13,
-                color: Color(0xFF666666),
-              ),
+              style: const TextStyle(fontSize: 13, color: Color(0xFF666666)),
             ),
           ),
         ],
@@ -555,7 +557,7 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -567,14 +569,11 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: backgroundColor.withOpacity(0.3),
+              color: backgroundColor.withValues(alpha: 0.3),
               shape: BoxShape.circle,
             ),
             child: Center(
-              child: Text(
-                emoji,
-                style: const TextStyle(fontSize: 24),
-              ),
+              child: Text(emoji, style: const TextStyle(fontSize: 24)),
             ),
           ),
           const SizedBox(width: 16),
@@ -603,13 +602,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Text(
             time,
-            style: const TextStyle(
-              fontSize: 13,
-              color: Color(0xFF999999),
-            ),
+            style: const TextStyle(fontSize: 13, color: Color(0xFF999999)),
           ),
         ],
-      ),  
+      ),
     );
   }
 
@@ -619,7 +615,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final selected = DateTime(date.year, date.month, date.day);
 
     if (selected == today) {
-      return '${DateFormat('M월 d일 (E)', 'ko_KR').format(date)}';
+      return DateFormat('M월 d일 (E)', 'ko_KR').format(date);
     } else {
       return DateFormat('M월 d일 (E)', 'ko_KR').format(date);
     }

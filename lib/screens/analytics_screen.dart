@@ -11,10 +11,7 @@ class AnalyticsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           '분석',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -27,10 +24,7 @@ class AnalyticsScreen extends StatelessWidget {
           children: [
             const Text(
               '최근 30일 데이터 기준',
-              style: TextStyle(
-                fontSize: 13,
-                color: Color(0xFF999999),
-              ),
+              style: TextStyle(fontSize: 13, color: Color(0xFF999999)),
             ),
             const SizedBox(height: 16),
 
@@ -73,7 +67,7 @@ class AnalyticsScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 2),
                   ),
@@ -137,13 +131,29 @@ class AnalyticsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildLegendItem('Type 1-2', '1회', const Color(0xFFFF9800)),
+                              _buildLegendItem(
+                                'Type 1-2',
+                                '1회',
+                                const Color(0xFFFF9800),
+                              ),
                               const SizedBox(height: 12),
-                              _buildLegendItem('Type 3-4', '4회', const Color(0xFF4CAF50)),
+                              _buildLegendItem(
+                                'Type 3-4',
+                                '4회',
+                                const Color(0xFF4CAF50),
+                              ),
                               const SizedBox(height: 12),
-                              _buildLegendItem('Type 5-6', '0회', const Color(0xFFE0E0E0)),
+                              _buildLegendItem(
+                                'Type 5-6',
+                                '0회',
+                                const Color(0xFFE0E0E0),
+                              ),
                               const SizedBox(height: 12),
-                              _buildLegendItem('Type 7', '0회', const Color(0xFFE0E0E0)),
+                              _buildLegendItem(
+                                'Type 7',
+                                '0회',
+                                const Color(0xFFE0E0E0),
+                              ),
                             ],
                           ),
                         ),
@@ -164,7 +174,7 @@ class AnalyticsScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 2),
                   ),
@@ -212,7 +222,15 @@ class AnalyticsScreen extends StatelessWidget {
                             sideTitles: SideTitles(
                               showTitles: true,
                               getTitlesWidget: (value, meta) {
-                                const days = ['월', '화', '수', '목', '금', '토', '일'];
+                                const days = [
+                                  '월',
+                                  '화',
+                                  '수',
+                                  '목',
+                                  '금',
+                                  '토',
+                                  '일',
+                                ];
                                 if (value.toInt() >= 0 &&
                                     value.toInt() < days.length) {
                                   return Padding(
@@ -318,7 +336,7 @@ class AnalyticsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -337,10 +355,7 @@ class AnalyticsScreen extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Color(0xFF666666),
-            ),
+            style: const TextStyle(fontSize: 12, color: Color(0xFF666666)),
             textAlign: TextAlign.center,
           ),
         ],
@@ -354,19 +369,13 @@ class AnalyticsScreen extends StatelessWidget {
         Container(
           width: 12,
           height: 12,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
             label,
-            style: const TextStyle(
-              fontSize: 13,
-              color: Color(0xFF666666),
-            ),
+            style: const TextStyle(fontSize: 13, color: Color(0xFF666666)),
           ),
         ),
         Text(
@@ -416,14 +425,10 @@ class AnalyticsScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withValues(alpha: 0.8),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 24,
-            ),
+            child: Icon(icon, color: iconColor, size: 24),
           ),
           const SizedBox(width: 12),
           Expanded(

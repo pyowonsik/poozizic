@@ -53,13 +53,10 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF4CAF50).withOpacity(0.1),
+                      color: const Color(0xFF4CAF50).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text(
-                      '🏃',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    child: const Text('🏃', style: TextStyle(fontSize: 20)),
                   ),
                   const SizedBox(width: 12),
                   const Text(
@@ -101,7 +98,7 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? const Color(0xFF4CAF50).withOpacity(0.1)
+                            ? const Color(0xFF4CAF50).withValues(alpha: 0.1)
                             : Colors.white,
                         border: Border.all(
                           color: isSelected
@@ -123,8 +120,9 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
                             exercise['label']!,
                             style: TextStyle(
                               fontSize: 12,
-                              fontWeight:
-                                  isSelected ? FontWeight.bold : FontWeight.normal,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                               color: isSelected
                                   ? const Color(0xFF4CAF50)
                                   : const Color(0xFF666666),
@@ -167,10 +165,7 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
                     ),
                     const Text(
                       '분',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Color(0xFF666666),
-                      ),
+                      style: TextStyle(fontSize: 18, color: Color(0xFF666666)),
                     ),
                     const SizedBox(height: 20),
                     SliderTheme(
@@ -178,7 +173,9 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
                         activeTrackColor: const Color(0xFF4CAF50),
                         inactiveTrackColor: const Color(0xFFE0E0E0),
                         thumbColor: const Color(0xFF4CAF50),
-                        overlayColor: const Color(0xFF4CAF50).withOpacity(0.2),
+                        overlayColor: const Color(
+                          0xFF4CAF50,
+                        ).withValues(alpha: 0.2),
                         thumbShape: const RoundSliderThumbShape(
                           enabledThumbRadius: 10,
                         ),
@@ -246,7 +243,7 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
                           ),
                         ),
                         child: Text(
-                          '${duration}분',
+                          '$duration분',
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -286,7 +283,7 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 18),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? const Color(0xFF4CAF50).withOpacity(0.1)
+                              ? const Color(0xFF4CAF50).withValues(alpha: .1)
                               : Colors.white,
                           border: Border.all(
                             color: isSelected
@@ -307,8 +304,9 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
                               intensity['label']!,
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                    isSelected ? FontWeight.bold : FontWeight.normal,
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
                                 color: isSelected
                                     ? const Color(0xFF4CAF50)
                                     : const Color(0xFF666666),
@@ -328,16 +326,22 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _selectedExercise != null && _selectedIntensity != null
+                  onPressed:
+                      _selectedExercise != null && _selectedIntensity != null
                       ? () {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                  '${_exercises[_selectedExercise!]['label']} ${_duration.toInt()}분이 기록되었습니다'),
+                                '${_exercises[_selectedExercise!]['label']} ${_duration.toInt()}분이 기록되었습니다',
+                              ),
                               backgroundColor: const Color(0xFF4CAF50),
                               behavior: SnackBarBehavior.floating,
-                              margin: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
+                              margin: const EdgeInsets.only(
+                                bottom: 30,
+                                left: 20,
+                                right: 20,
+                              ),
                             ),
                           );
                         }
@@ -376,4 +380,3 @@ class _ExerciseRecordScreenState extends State<ExerciseRecordScreen> {
     );
   }
 }
-
