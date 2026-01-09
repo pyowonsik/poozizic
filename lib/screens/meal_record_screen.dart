@@ -56,13 +56,10 @@ class _MealRecordScreenState extends State<MealRecordScreen> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE91E63).withOpacity(0.1),
+                      color: const Color(0xFFE91E63).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text(
-                      '👕',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    child: const Text('👕', style: TextStyle(fontSize: 20)),
                   ),
                   const SizedBox(width: 12),
                   const Text(
@@ -102,7 +99,7 @@ class _MealRecordScreenState extends State<MealRecordScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? const Color(0xFF5E35B1).withOpacity(0.1)
+                              ? const Color(0xFF5E35B1).withValues(alpha: 0.1)
                               : Colors.white,
                           border: Border.all(
                             color: isSelected
@@ -123,8 +120,9 @@ class _MealRecordScreenState extends State<MealRecordScreen> {
                               meal['label']!,
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                    isSelected ? FontWeight.bold : FontWeight.normal,
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
                                 color: isSelected
                                     ? const Color(0xFF5E35B1)
                                     : const Color(0xFF666666),
@@ -207,7 +205,7 @@ class _MealRecordScreenState extends State<MealRecordScreen> {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF5E35B1).withOpacity(0.1),
+                        color: const Color(0xFF5E35B1).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
@@ -267,7 +265,7 @@ class _MealRecordScreenState extends State<MealRecordScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? const Color(0xFF5E35B1).withOpacity(0.1)
+                              ? const Color(0xFF5E35B1).withValues(alpha: .1)
                               : Colors.white,
                           border: Border.all(
                             color: isSelected
@@ -288,8 +286,9 @@ class _MealRecordScreenState extends State<MealRecordScreen> {
                               fiber['label']!,
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight:
-                                    isSelected ? FontWeight.bold : FontWeight.normal,
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
                                 color: isSelected
                                     ? const Color(0xFF5E35B1)
                                     : const Color(0xFF666666),
@@ -317,7 +316,11 @@ class _MealRecordScreenState extends State<MealRecordScreen> {
                               content: Text('식사 기록이 완료되었습니다'),
                               backgroundColor: Color(0xFF4CAF50),
                               behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.only(bottom: 30, left: 20, right: 20),
+                              margin: EdgeInsets.only(
+                                bottom: 30,
+                                left: 20,
+                                right: 20,
+                              ),
                             ),
                           );
                         }
@@ -365,4 +368,3 @@ class _MealRecordScreenState extends State<MealRecordScreen> {
     }
   }
 }
-
