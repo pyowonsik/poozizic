@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:poozizic/feature/analytics/presentation/page/analytics_page.dart';
+import 'package:poozizic/feature/auth/presentation/page/login_page.dart';
 import 'package:poozizic/feature/calendar/presentation/page/calendar_page.dart';
 import 'package:poozizic/feature/exercise_record/presentation/page/exercise_record_page.dart';
 import 'package:poozizic/feature/home/presentation/page/home_page.dart';
@@ -52,7 +53,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainScreen(),
+      // TODO: 로그인 상태 확인 후 분기 처리
+      // 임시로 LoginPage를 기본 화면으로 설정 (개발 중에는 MainScreen()으로 변경 가능)
+      home: const LoginPage(), // 로그인 화면
+      // home: const MainScreen(), // 메인 화면 (로그인 후)
     );
   }
 }
