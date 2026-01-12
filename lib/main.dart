@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'screens/home_screen.dart';
+import 'feature/home/presentation/page/home_page.dart';
 import 'feature/calendar/presentation/page/calendar_page.dart';
 import 'feature/record/presentation/page/record_page.dart';
 import 'feature/settings/presentation/page/settings_page.dart';
-import 'screens/analytics_screen.dart';
-import 'screens/meal_record_screen.dart';
-import 'screens/water_record_screen.dart';
-import 'screens/exercise_record_screen.dart';
+import 'feature/analytics/presentation/page/analytics_page.dart';
+import 'feature/meal_record/presentation/page/meal_record_page.dart';
+import 'feature/water_record/presentation/page/water_record_page.dart';
+import 'feature/exercise_record/presentation/page/exercise_record_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,10 +66,10 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const HomeScreen(),
+    const HomePage(),
     const CalendarPage(),
     const Center(child: Text('기록 화면')), // 사용하지 않음
-    const AnalyticsScreen(),
+    const AnalyticsPage(),
     const SettingsPage(),
   ];
 
@@ -152,7 +152,7 @@ class _MainScreenState extends State<MainScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MealRecordScreen(),
+                    builder: (context) => const MealRecordPage(),
                   ),
                 );
               },
@@ -171,7 +171,7 @@ class _MainScreenState extends State<MainScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const WaterRecordScreen(),
+                    builder: (context) => const WaterRecordPage(),
                   ),
                 );
               },
@@ -190,7 +190,7 @@ class _MainScreenState extends State<MainScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ExerciseRecordScreen(),
+                    builder: (context) => const ExerciseRecordPage(),
                   ),
                 );
               },
