@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../domain/entity/weekly_frequency_entity.dart';
+import 'package:flutter/material.dart';
+
+import 'package:poozizic/feature/analytics/domain/entity/weekly_frequency_entity.dart';
 
 /// 주간 배변 빈도 차트 위젯
 class WeeklyFrequencyChart extends StatelessWidget {
+  /// 주간 배변 빈도 차트 위젯 생성자
+  /// [weeklyFrequency] 주간 배변 빈도 엔티티
+  const WeeklyFrequencyChart({required this.weeklyFrequency, super.key});
+
+  /// 주간 배변 빈도 엔티티
   final WeeklyFrequencyEntity weeklyFrequency;
 
-  const WeeklyFrequencyChart({
-    super.key,
-    required this.weeklyFrequency,
-  });
-
+  /// 주간 배변 빈도 차트 위젯 생성자
   @override
   Widget build(BuildContext context) {
     final maxY = (weeklyFrequency.maxDailyCount + 1).toDouble();
@@ -48,30 +50,22 @@ class WeeklyFrequencyChart extends StatelessWidget {
                 maxY: maxY > 0 ? maxY : 2.5,
                 barTouchData: BarTouchData(enabled: false),
                 gridData: FlGridData(
-                  show: true,
                   drawVerticalLine: false,
                   horizontalInterval: 1,
                   getDrawingHorizontalLine: (value) {
-                    return FlLine(
-                      color: Colors.grey[200]!,
-                      strokeWidth: 1,
-                    );
+                    return FlLine(color: Colors.grey[200], strokeWidth: 1);
                   },
                 ),
                 titlesData: FlTitlesData(
-                  show: true,
-                  rightTitles: const AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  topTitles: const AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
+                  rightTitles: const AxisTitles(),
+                  topTitles: const AxisTitles(),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
                         if (value.toInt() >= 0 &&
-                            value.toInt() < WeeklyFrequencyEntity.dayLabels.length) {
+                            value.toInt() <
+                                WeeklyFrequencyEntity.dayLabels.length) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text(

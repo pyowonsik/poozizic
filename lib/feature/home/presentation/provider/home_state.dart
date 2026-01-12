@@ -1,6 +1,6 @@
-import '../../domain/entity/daily_summary_entity.dart';
-import '../../domain/entity/health_score_entity.dart';
-import '../../domain/entity/recent_record_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/daily_summary_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/health_score_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/recent_record_entity.dart';
 
 /// Home 화면 상태 (Sealed Class)
 sealed class HomeState {
@@ -9,17 +9,13 @@ sealed class HomeState {
 
 /// 로딩 상태
 class HomeLoading extends HomeState {
+  /// Home 로딩 상태 생성자
   const HomeLoading();
 }
 
 /// 로드 완료 상태
 class HomeLoaded extends HomeState {
-  final DateTime selectedDate;
-  final DailySummaryEntity summary;
-  final HealthScoreEntity healthScore;
-  final List<RecentRecordEntity> recentRecords;
-  final bool isHealthScoreExpanded;
-
+  /// Home 로드 완료 상태 생성자
   const HomeLoaded({
     required this.selectedDate,
     required this.summary,
@@ -28,6 +24,22 @@ class HomeLoaded extends HomeState {
     this.isHealthScoreExpanded = false,
   });
 
+  /// 선택된 날짜
+  final DateTime selectedDate;
+
+  /// 일일 요약 정보
+  final DailySummaryEntity summary;
+
+  /// 건강 점수 정보
+  final HealthScoreEntity healthScore;
+
+  /// 최근 기록 목록
+  final List<RecentRecordEntity> recentRecords;
+
+  /// 건강 점수 확장 여부
+  final bool isHealthScoreExpanded;
+
+  /// Home 로드 완료 상태 복사
   HomeLoaded copyWith({
     DateTime? selectedDate,
     DailySummaryEntity? summary,
@@ -48,7 +60,10 @@ class HomeLoaded extends HomeState {
 
 /// 에러 상태
 class HomeError extends HomeState {
-  final String message;
-
+  /// Home 에러 상태 생성자
+  /// [message] 에러 메시지
   const HomeError({required this.message});
+
+  /// 에러 메시지
+  final String message;
 }

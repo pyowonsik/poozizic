@@ -1,14 +1,14 @@
 import 'dart:math';
-import '../../domain/entity/meal_record_entity.dart';
+import 'package:poozizic/feature/meal_record/domain/entity/meal_record_entity.dart';
 
 /// MealRecord 로컬 데이터소스 (목업)
 class MealRecordLocalDataSource {
-  final List<MealRecordEntity> _records = [];
-  int _nextId = 1;
-
+  /// MealRecord Local Data Source 생성자
   MealRecordLocalDataSource() {
     _generateMockData();
   }
+  final List<MealRecordEntity> _records = [];
+  int _nextId = 1;
 
   /// 목업 데이터 생성 (최근 7일)
   void _generateMockData() {
@@ -25,7 +25,7 @@ class MealRecordLocalDataSource {
       ['치킨', '맥주'],
     ];
 
-    for (int i = 0; i < 7; i++) {
+    for (var i = 0; i < 7; i++) {
       final date = now.subtract(Duration(days: i));
       // 하루에 2-4끼
       final mealCount = 2 + random.nextInt(3);
@@ -44,14 +44,28 @@ class MealRecordLocalDataSource {
         final foods = sampleFoods[random.nextInt(sampleFoods.length)];
         final fiberLevel = random.nextInt(3);
 
-        _records.add(MealRecordEntity(
-          id: _nextId++,
-          dateTime: DateTime(date.year, date.month, date.day, hours, random.nextInt(60)),
-          mealType: mealType,
-          foods: List.from(foods),
-          fiberLevel: fiberLevel,
-          createdAt: DateTime(date.year, date.month, date.day, hours, random.nextInt(60)),
-        ));
+        _records.add(
+          MealRecordEntity(
+            id: _nextId++,
+            dateTime: DateTime(
+              date.year,
+              date.month,
+              date.day,
+              hours,
+              random.nextInt(60),
+            ),
+            mealType: mealType,
+            foods: List.from(foods),
+            fiberLevel: fiberLevel,
+            createdAt: DateTime(
+              date.year,
+              date.month,
+              date.day,
+              hours,
+              random.nextInt(60),
+            ),
+          ),
+        );
       }
     }
 
@@ -61,7 +75,7 @@ class MealRecordLocalDataSource {
 
   /// 식사 기록 생성
   Future<MealRecordEntity> createRecord(MealRecordEntity record) async {
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future<void>.delayed(const Duration(milliseconds: 100));
     final newRecord = record.copyWith(id: _nextId++);
     _records.insert(0, newRecord);
     return newRecord;
@@ -69,7 +83,7 @@ class MealRecordLocalDataSource {
 
   /// 특정 날짜의 식사 기록 조회
   Future<List<MealRecordEntity>> getRecordsByDate(DateTime date) async {
-    await Future.delayed(const Duration(milliseconds: 50));
+    await Future<void>.delayed(const Duration(milliseconds: 50));
     return _records.where((record) {
       return record.dateTime.year == date.year &&
           record.dateTime.month == date.month &&
@@ -85,7 +99,7 @@ class MealRecordLocalDataSource {
 
   /// 전체 기록 조회
   Future<List<MealRecordEntity>> getAllRecords() async {
-    await Future.delayed(const Duration(milliseconds: 50));
+    await Future<void>.delayed(const Duration(milliseconds: 50));
     return List.from(_records);
   }
 }

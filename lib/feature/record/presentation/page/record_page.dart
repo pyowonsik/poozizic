@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../di/record_providers.dart';
-import '../provider/record_form_notifier.dart';
-import '../provider/record_form_state.dart';
-import '../widget/bristol_scale_step.dart';
-import '../widget/feeling_step.dart';
-import '../widget/time_step.dart';
-import '../../../home/di/home_providers.dart';
-import '../../../analytics/di/analytics_providers.dart';
+import 'package:poozizic/feature/analytics/di/analytics_providers.dart';
+import 'package:poozizic/feature/home/di/home_providers.dart';
+import 'package:poozizic/feature/record/di/record_providers.dart';
+import 'package:poozizic/feature/record/presentation/provider/record_form_notifier.dart';
+import 'package:poozizic/feature/record/presentation/provider/record_form_state.dart';
+import 'package:poozizic/feature/record/presentation/widget/bristol_scale_step.dart';
+import 'package:poozizic/feature/record/presentation/widget/feeling_step.dart';
+import 'package:poozizic/feature/record/presentation/widget/time_step.dart';
 
 /// 배변 기록 페이지 (Clean Architecture)
 class RecordPage extends ConsumerStatefulWidget {
+  /// 배변 기록 페이지 생성자
   const RecordPage({super.key});
 
   @override
@@ -86,8 +87,7 @@ class _RecordPageState extends ConsumerState<RecordPage> {
   }
 
   Widget _buildProgressBar(RecordFormState state) {
-    final currentStep =
-        state is RecordFormInProgress ? state.currentStep : 0;
+    final currentStep = state is RecordFormInProgress ? state.currentStep : 0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -114,10 +114,7 @@ class _RecordPageState extends ConsumerState<RecordPage> {
           const SizedBox(width: 12),
           Text(
             '${currentStep + 1}/3',
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF999999),
-            ),
+            style: const TextStyle(fontSize: 14, color: Color(0xFF999999)),
           ),
         ],
       ),

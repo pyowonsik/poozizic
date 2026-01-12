@@ -1,12 +1,14 @@
-import '../../domain/entity/meal_record_entity.dart';
-import '../../domain/repository/meal_record_repository.dart';
-import '../datasource/meal_record_local_datasource.dart';
+import 'package:poozizic/feature/meal_record/data/datasource/meal_record_local_datasource.dart';
+import 'package:poozizic/feature/meal_record/domain/entity/meal_record_entity.dart';
+import 'package:poozizic/feature/meal_record/domain/repository/meal_record_repository.dart';
 
 /// MealRecord Repository 구현체
 class MealRecordRepositoryImpl implements MealRecordRepository {
-  final MealRecordLocalDataSource _dataSource;
-
+  /// MealRecord Repository 구현체 생성자
   MealRecordRepositoryImpl(this._dataSource);
+
+  /// MealRecord Local Data Source
+  final MealRecordLocalDataSource _dataSource;
 
   @override
   Future<MealRecordEntity> createRecord(MealRecordEntity record) {

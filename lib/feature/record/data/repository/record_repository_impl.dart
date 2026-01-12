@@ -1,9 +1,10 @@
-import '../../domain/entity/record_entity.dart';
-import '../../domain/repository/record_repository.dart';
-import '../datasource/record_local_datasource.dart';
+import 'package:poozizic/feature/record/data/datasource/record_local_datasource.dart';
+import 'package:poozizic/feature/record/domain/entity/record_entity.dart';
+import 'package:poozizic/feature/record/domain/repository/record_repository.dart';
 
 /// Record Repository 구현체
 class RecordRepositoryImpl implements RecordRepository {
+  /// Record Repository 구현체 생성자
   const RecordRepositoryImpl(this._dataSource);
 
   final RecordLocalDataSource _dataSource;

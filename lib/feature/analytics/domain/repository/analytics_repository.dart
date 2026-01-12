@@ -1,7 +1,7 @@
-import '../entity/analytics_summary_entity.dart';
-import '../entity/bowel_distribution_entity.dart';
-import '../entity/weekly_frequency_entity.dart';
-import '../entity/insight_entity.dart';
+import 'package:poozizic/feature/analytics/domain/entity/analytics_summary_entity.dart';
+import 'package:poozizic/feature/analytics/domain/entity/bowel_distribution_entity.dart';
+import 'package:poozizic/feature/analytics/domain/entity/insight_entity.dart';
+import 'package:poozizic/feature/analytics/domain/entity/weekly_frequency_entity.dart';
 
 /// Analytics Repository 인터페이스
 abstract class AnalyticsRepository {

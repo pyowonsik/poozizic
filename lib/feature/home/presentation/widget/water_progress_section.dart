@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../domain/entity/daily_summary_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/daily_summary_entity.dart';
 
 /// 수분 섭취 진행률 섹션 위젯
 class WaterProgressSection extends StatelessWidget {
-  final DailySummaryEntity summary;
+  /// 수분 섭취 진행률 섹션 위젯 생성자
+  /// [summary] 일일 요약 엔티티
+  const WaterProgressSection({required this.summary, super.key});
 
-  const WaterProgressSection({
-    super.key,
-    required this.summary,
-  });
+  /// 일일 요약 엔티티
+  final DailySummaryEntity summary;
 
   @override
   Widget build(BuildContext context) {

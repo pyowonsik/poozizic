@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'feature/home/presentation/page/home_page.dart';
-import 'feature/calendar/presentation/page/calendar_page.dart';
-import 'feature/record/presentation/page/record_page.dart';
-import 'feature/settings/presentation/page/settings_page.dart';
-import 'feature/analytics/presentation/page/analytics_page.dart';
-import 'feature/meal_record/presentation/page/meal_record_page.dart';
-import 'feature/water_record/presentation/page/water_record_page.dart';
-import 'feature/exercise_record/presentation/page/exercise_record_page.dart';
+import 'package:poozizic/feature/analytics/presentation/page/analytics_page.dart';
+import 'package:poozizic/feature/calendar/presentation/page/calendar_page.dart';
+import 'package:poozizic/feature/exercise_record/presentation/page/exercise_record_page.dart';
+import 'package:poozizic/feature/home/presentation/page/home_page.dart';
+import 'package:poozizic/feature/meal_record/presentation/page/meal_record_page.dart';
+import 'package:poozizic/feature/record/presentation/page/record_page.dart';
+import 'package:poozizic/feature/settings/presentation/page/settings_page.dart';
+import 'package:poozizic/feature/water_record/presentation/page/water_record_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('ko_KR', null);
+  await initializeDateFormatting('ko_KR');
   runApp(const ProviderScope(child: MyApp()));
 }
 
+/// 앱 메인 위젯
 class MyApp extends StatelessWidget {
+  /// 앱 메인 위젯 생성자
+  /// [key] 키
   const MyApp({super.key});
 
   @override
@@ -30,7 +33,6 @@ class MyApp extends StatelessWidget {
           seedColor: const Color(0xFF8B4513),
           primary: const Color(0xFF8B4513),
           secondary: const Color(0xFF4CAF50),
-          brightness: Brightness.light,
         ),
         useMaterial3: true,
         fontFamily: '-apple-system',
@@ -55,7 +57,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// 메인 화면
 class MainScreen extends StatefulWidget {
+  /// 메인 화면 생성자
+  /// [key] 키
   const MainScreen({super.key});
 
   @override
@@ -80,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _showQuickRecordBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -132,9 +137,11 @@ class _MainScreenState extends State<MainScreen> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
+                Navigator.push<void>(
                   context,
-                  MaterialPageRoute(builder: (context) => const RecordPage()),
+                  MaterialPageRoute<void>(
+                    builder: (context) => const RecordPage(),
+                  ),
                 );
               },
             ),
@@ -149,9 +156,9 @@ class _MainScreenState extends State<MainScreen> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
+                Navigator.push<void>(
                   context,
-                  MaterialPageRoute(
+                  MaterialPageRoute<void>(
                     builder: (context) => const MealRecordPage(),
                   ),
                 );
@@ -168,9 +175,9 @@ class _MainScreenState extends State<MainScreen> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
+                Navigator.push<void>(
                   context,
-                  MaterialPageRoute(
+                  MaterialPageRoute<void>(
                     builder: (context) => const WaterRecordPage(),
                   ),
                 );
@@ -187,9 +194,9 @@ class _MainScreenState extends State<MainScreen> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
+                Navigator.push<void>(
                   context,
-                  MaterialPageRoute(
+                  MaterialPageRoute<void>(
                     builder: (context) => const ExerciseRecordPage(),
                   ),
                 );

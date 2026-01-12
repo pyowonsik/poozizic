@@ -1,19 +1,37 @@
 import 'package:flutter/material.dart';
 
 /// 인사이트 타입
-enum InsightType { positive, water, time, warning }
+enum InsightType {
+  /// 긍정적인 인사이트
+  positive,
+
+  /// 수분 인사이트
+  water,
+
+  /// 시간 인사이트
+  time,
+
+  /// 경고 인사이트
+  warning,
+}
 
 /// 인사이트 엔티티
 class InsightEntity {
-  final InsightType type;
-  final String title;
-  final String description;
-
+  /// 인사이트 엔티티 생성자
   const InsightEntity({
     required this.type,
     required this.title,
     required this.description,
   });
+
+  /// 인사이트 타입
+  final InsightType type;
+
+  /// 인사이트 제목
+  final String title;
+
+  /// 인사이트 설명
+  final String description;
 
   /// 타입에 따른 아이콘
   IconData get icon {

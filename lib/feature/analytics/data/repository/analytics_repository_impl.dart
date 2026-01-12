@@ -1,17 +1,17 @@
-import '../../domain/entity/analytics_summary_entity.dart';
-import '../../domain/entity/bowel_distribution_entity.dart';
-import '../../domain/entity/weekly_frequency_entity.dart';
-import '../../domain/entity/insight_entity.dart';
-import '../../domain/repository/analytics_repository.dart';
-import '../../../record/domain/repository/record_repository.dart';
-import '../../../water_record/domain/repository/water_record_repository.dart';
+import 'package:poozizic/feature/analytics/domain/entity/analytics_summary_entity.dart';
+import 'package:poozizic/feature/analytics/domain/entity/bowel_distribution_entity.dart';
+import 'package:poozizic/feature/analytics/domain/entity/insight_entity.dart';
+import 'package:poozizic/feature/analytics/domain/entity/weekly_frequency_entity.dart';
+import 'package:poozizic/feature/analytics/domain/repository/analytics_repository.dart';
+import 'package:poozizic/feature/record/domain/repository/record_repository.dart';
+import 'package:poozizic/feature/water_record/domain/repository/water_record_repository.dart';
 
 /// Analytics Repository 구현체
 class AnalyticsRepositoryImpl implements AnalyticsRepository {
+  /// Analytics Repository 구현체 생성자
+  AnalyticsRepositoryImpl(this._recordRepository, this._waterRecordRepository);
   final RecordRepository _recordRepository;
   final WaterRecordRepository _waterRecordRepository;
-
-  AnalyticsRepositoryImpl(this._recordRepository, this._waterRecordRepository);
 
   @override
   Future<AnalyticsSummaryEntity> getAnalyticsSummary(int days) async {
@@ -20,7 +20,9 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
     final startDate = now.subtract(Duration(days: days));
 
     // 기간 내 기록 필터링
-    final periodRecords = allRecords.where((r) => r.dateTime.isAfter(startDate)).toList();
+    final periodRecords = allRecords
+        .where((r) => r.dateTime.isAfter(startDate))
+        .toList();
 
     // 정상 비율 계산 (Bristol Type 3-4)
     double normalRatio = 0;
@@ -32,15 +34,14 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
     }
 
     // 평균 간격 계산
-    double averageInterval = 1.0;
+    var averageInterval = 1.0;
     if (periodRecords.length >= 2) {
       final sortedRecords = periodRecords.toList()
         ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
 
-      int totalIntervalHours = 0;
-      for (int i = 1; i < sortedRecords.length; i++) {
-        totalIntervalHours += sortedRecords[i]
-            .dateTime
+      var totalIntervalHours = 0;
+      for (var i = 1; i < sortedRecords.length; i++) {
+        totalIntervalHours += sortedRecords[i].dateTime
             .difference(sortedRecords[i - 1].dateTime)
             .inHours;
       }
@@ -48,7 +49,7 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
     }
 
     // 건강 점수 계산 (정상 비율 기반)
-    int healthScore = 85;
+    var healthScore = 85;
     if (normalRatio >= 80) {
       healthScore = 90;
     } else if (normalRatio >= 60) {
@@ -74,30 +75,28 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
     final startDate = now.subtract(Duration(days: days));
 
     // 기간 내 기록 필터링
-    final periodRecords = allRecords.where((r) => r.dateTime.isAfter(startDate)).toList();
+    final periodRecords = allRecords
+        .where((r) => r.dateTime.isAfter(startDate))
+        .toList();
 
-    int type1_2Count = 0;
-    int type3_4Count = 0;
-    int type5_6Count = 0;
-    int type7Count = 0;
+    var type1_2Count = 0;
+    var type3_4Count = 0;
+    var type5_6Count = 0;
+    var type7Count = 0;
 
     for (final record in periodRecords) {
       switch (record.bristolType) {
         case 1:
         case 2:
           type1_2Count++;
-          break;
         case 3:
         case 4:
           type3_4Count++;
-          break;
         case 5:
         case 6:
           type5_6Count++;
-          break;
         case 7:
           type7Count++;
-          break;
       }
     }
 
@@ -116,7 +115,11 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
 
     // 이번 주 시작일 (월요일)
     final weekStart = now.subtract(Duration(days: now.weekday - 1));
-    final weekStartDate = DateTime(weekStart.year, weekStart.month, weekStart.day);
+    final weekStartDate = DateTime(
+      weekStart.year,
+      weekStart.month,
+      weekStart.day,
+    );
 
     // 요일별 카운트 [월, 화, 수, 목, 금, 토, 일]
     final dailyCounts = List.filled(7, 0);
@@ -148,7 +151,9 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
     // 최근 7일 기록 분석
     final now = DateTime.now();
     final weekAgo = now.subtract(const Duration(days: 7));
-    final recentRecords = allRecords.where((r) => r.dateTime.isAfter(weekAgo)).toList();
+    final recentRecords = allRecords
+        .where((r) => r.dateTime.isAfter(weekAgo))
+        .toList();
 
     // 정상 패턴 분석
     if (recentRecords.isNotEmpty) {
@@ -158,40 +163,48 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
       final normalRatio = normalCount / recentRecords.length;
 
       if (normalRatio >= 0.7) {
-        insights.add(const InsightEntity(
-          type: InsightType.positive,
-          title: '정상 패턴 유지',
-          description: '최근 배변 상태가 이상적인 범위에 있습니다.',
-        ));
+        insights.add(
+          const InsightEntity(
+            type: InsightType.positive,
+            title: '정상 패턴 유지',
+            description: '최근 배변 상태가 이상적인 범위에 있습니다.',
+          ),
+        );
       }
     }
 
     // 수분 섭취 분석
     final todayWater = await _waterRecordRepository.getDailyTotal(now);
     if (todayWater >= 1500) {
-      insights.add(const InsightEntity(
-        type: InsightType.water,
-        title: '수분 섭취 우수',
-        description: '충분한 수분 섭취가 건강한 배변을 돕고 있습니다.',
-      ));
+      insights.add(
+        const InsightEntity(
+          type: InsightType.water,
+          title: '수분 섭취 우수',
+          description: '충분한 수분 섭취가 건강한 배변을 돕고 있습니다.',
+        ),
+      );
     }
 
     // 규칙성 분석
     if (recentRecords.length >= 5) {
-      insights.add(const InsightEntity(
-        type: InsightType.time,
-        title: '규칙적인 시간',
-        description: '일정한 시간대에 배변하는 습관이 좋습니다.',
-      ));
+      insights.add(
+        const InsightEntity(
+          type: InsightType.time,
+          title: '규칙적인 시간',
+          description: '일정한 시간대에 배변하는 습관이 좋습니다.',
+        ),
+      );
     }
 
     // 기본 인사이트 추가 (최소 3개 보장)
     if (insights.isEmpty) {
-      insights.add(const InsightEntity(
-        type: InsightType.positive,
-        title: '기록을 시작해보세요',
-        description: '꾸준한 기록이 건강 관리의 첫걸음입니다.',
-      ));
+      insights.add(
+        const InsightEntity(
+          type: InsightType.positive,
+          title: '기록을 시작해보세요',
+          description: '꾸준한 기록이 건강 관리의 첫걸음입니다.',
+        ),
+      );
     }
 
     return insights;

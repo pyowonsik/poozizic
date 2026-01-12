@@ -1,19 +1,14 @@
 /// 설정 Entity
 class SettingsEntity {
-  // 목표 설정
-  final int waterGoal;
-  final int bowelGoal;
-
-  // 알림 설정
-  final bool bowelReminder;
-  final bool waterReminder;
-  final bool weeklyReport;
-
-  // 프라이버시 설정
-  final bool appLock;
-  final bool hideNotificationContent;
-  final bool cloudBackup;
-
+  /// 설정 Entity 생성자
+  /// [waterGoal] 수분 목표
+  /// [bowelGoal] 대변 목표
+  /// [bowelReminder] 대변 알림
+  /// [waterReminder] 수분 알림
+  /// [weeklyReport] 주간 보고서
+  /// [appLock] 앱 잠금
+  /// [hideNotificationContent] 알림에서 내용 숨기기
+  /// [cloudBackup] 클라우드 백업
   const SettingsEntity({
     this.waterGoal = 2000,
     this.bowelGoal = 1,
@@ -25,10 +20,44 @@ class SettingsEntity {
     this.cloudBackup = false,
   });
 
+  /// 기본 설정 생성
   factory SettingsEntity.defaults() {
     return const SettingsEntity();
   }
 
+  /// 수분 목표
+  final int waterGoal;
+
+  /// 대변 목표
+  final int bowelGoal;
+
+  /// 대변 알림
+  final bool bowelReminder;
+
+  /// 수분 알림
+  final bool waterReminder;
+
+  /// 주간 보고서
+  final bool weeklyReport;
+
+  /// 앱 잠금
+  final bool appLock;
+
+  /// 알림에서 내용 숨기기
+  final bool hideNotificationContent;
+
+  /// 클라우드 백업
+  final bool cloudBackup;
+
+  /// 설정 엔티티 복사
+  /// [waterGoal] 수분 목표
+  /// [bowelGoal] 대변 목표
+  /// [bowelReminder] 대변 알림
+  /// [waterReminder] 수분 알림
+  /// [weeklyReport] 주간 보고서
+  /// [appLock] 앱 잠금
+  /// [hideNotificationContent] 알림에서 내용 숨기기
+  /// [cloudBackup] 클라우드 백업
   SettingsEntity copyWith({
     int? waterGoal,
     int? bowelGoal,
@@ -46,7 +75,8 @@ class SettingsEntity {
       waterReminder: waterReminder ?? this.waterReminder,
       weeklyReport: weeklyReport ?? this.weeklyReport,
       appLock: appLock ?? this.appLock,
-      hideNotificationContent: hideNotificationContent ?? this.hideNotificationContent,
+      hideNotificationContent:
+          hideNotificationContent ?? this.hideNotificationContent,
       cloudBackup: cloudBackup ?? this.cloudBackup,
     );
   }

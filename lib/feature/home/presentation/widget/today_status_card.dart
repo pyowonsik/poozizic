@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../domain/entity/daily_summary_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/daily_summary_entity.dart';
 
 /// 오늘의 상태 카드 위젯
 class TodayStatusCard extends StatelessWidget {
-  final DailySummaryEntity summary;
+  /// 오늘의 상태 카드 위젯 생성자
+  /// [summary] 일일 요약 엔티티
+  const TodayStatusCard({required this.summary, super.key});
 
-  const TodayStatusCard({
-    super.key,
-    required this.summary,
-  });
+  /// 일일 요약 엔티티
+  final DailySummaryEntity summary;
 
   @override
   Widget build(BuildContext context) {

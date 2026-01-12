@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 
+/// 브리스톨 타입 스텝
 class BristolScaleStep extends StatelessWidget {
+  /// 브리스톨 타입 스텝 생성자
   const BristolScaleStep({
-    super.key,
     required this.selectedType,
     required this.onTypeSelected,
     required this.onNext,
+    super.key,
   });
 
+  /// 선택된 브리스톨 타입
   final int? selectedType;
+
+  /// 브리스톨 타입 선택 콜백
   final ValueChanged<int> onTypeSelected;
+
+  /// 다음 단계 콜백
   final VoidCallback onNext;
 
+  /// 브리스톨 타입 목록
   static const List<Map<String, String>> bristolTypes = [
     {'type': 'Type 1', 'desc': '딱딱한 덩어리'},
     {'type': 'Type 2', 'desc': '울퉁불퉁한 소시지'},
@@ -22,6 +30,7 @@ class BristolScaleStep extends StatelessWidget {
     {'type': 'Type 7', 'desc': '액체 상태'},
   ];
 
+  /// 브리스톨 타입 색상 가져오기
   Color _getBristolColor(int index) {
     const colors = [
       Color(0xFF3E2723),
@@ -53,10 +62,7 @@ class BristolScaleStep extends StatelessWidget {
           const SizedBox(height: 8),
           const Text(
             'Bristol Scale 기준',
-            style: TextStyle(
-              fontSize: 14,
-              color: Color(0xFF999999),
-            ),
+            style: TextStyle(fontSize: 14, color: Color(0xFF999999)),
           ),
           const SizedBox(height: 24),
           ...List.generate(bristolTypes.length, (index) {

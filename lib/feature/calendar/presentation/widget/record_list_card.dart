@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../record/domain/entity/record_entity.dart';
+import 'package:poozizic/feature/record/domain/entity/record_entity.dart';
 
+/// 기록 리스트 카드 위젯
 class RecordListCard extends StatelessWidget {
+  /// 기록 리스트 카드 위젯 생성자
+  /// [selectedDay] 선택된 날짜
+  /// [records] 기록 리스트
   const RecordListCard({
-    super.key,
     required this.selectedDay,
     required this.records,
+    super.key,
   });
 
+  /// 선택된 날짜
   final DateTime selectedDay;
+
+  /// 기록 리스트
   final List<RecordEntity> records;
 
+  /// 브리스톨 타입 설명
   static const List<String> bristolTypeDescriptions = [
     'Type 1 - 딱딱한 덩어리',
     'Type 2 - 울퉁불퉁한 소시지',
@@ -22,6 +30,7 @@ class RecordListCard extends StatelessWidget {
     'Type 7 - 액체 상태',
   ];
 
+  /// 배변감 설명
   static const List<Map<String, String>> feelings = [
     {'emoji': '😊', 'label': '시원함'},
     {'emoji': '😐', 'label': '보통'},
@@ -29,6 +38,7 @@ class RecordListCard extends StatelessWidget {
     {'emoji': '😰', 'label': '잔변감'},
   ];
 
+  /// 브리스톨 타입 설명 가져오기
   String _getBristolDescription(int type) {
     if (type >= 0 && type < bristolTypeDescriptions.length) {
       return bristolTypeDescriptions[type];
@@ -62,10 +72,12 @@ class RecordListCard extends StatelessWidget {
           if (records.isEmpty)
             _buildNoRecordCard()
           else
-            ...records.map((record) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: _buildRecordCard(record),
-                )),
+            ...records.map(
+              (record) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _buildRecordCard(record),
+              ),
+            ),
         ],
       ),
     );
@@ -98,10 +110,7 @@ class RecordListCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Center(
-                  child: Text(
-                    '💩',
-                    style: TextStyle(fontSize: 24),
-                  ),
+                  child: Text('💩', style: TextStyle(fontSize: 24)),
                 ),
               ),
               const SizedBox(width: 12),
@@ -131,7 +140,10 @@ class RecordListCard extends StatelessWidget {
             ],
           ),
           const Divider(height: 24),
-          _buildRecordRow('Bristol Type', _getBristolDescription(record.bristolType)),
+          _buildRecordRow(
+            'Bristol Type',
+            _getBristolDescription(record.bristolType),
+          ),
           const SizedBox(height: 8),
           _buildRecordRow('배변감', _getFeelingText(record.feeling)),
           const SizedBox(height: 8),
@@ -162,18 +174,11 @@ class RecordListCard extends StatelessWidget {
       child: const Center(
         child: Column(
           children: [
-            Icon(
-              Icons.event_note,
-              size: 48,
-              color: Color(0xFF999999),
-            ),
+            Icon(Icons.event_note, size: 48, color: Color(0xFF999999)),
             SizedBox(height: 12),
             Text(
               '기록이 없습니다',
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFF666666),
-              ),
+              style: TextStyle(fontSize: 16, color: Color(0xFF666666)),
             ),
           ],
         ),
@@ -189,10 +194,7 @@ class RecordListCard extends StatelessWidget {
           width: 100,
           child: Text(
             label,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF666666),
-            ),
+            style: const TextStyle(fontSize: 14, color: Color(0xFF666666)),
           ),
         ),
         Expanded(

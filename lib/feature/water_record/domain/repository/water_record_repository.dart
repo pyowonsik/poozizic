@@ -1,4 +1,4 @@
-import '../entity/water_record_entity.dart';
+import 'package:poozizic/feature/water_record/domain/entity/water_record_entity.dart';
 
 /// WaterRecord Repository 인터페이스
 abstract class WaterRecordRepository {

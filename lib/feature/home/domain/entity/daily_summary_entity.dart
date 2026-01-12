@@ -1,20 +1,38 @@
 /// 일일 요약 엔티티
 class DailySummaryEntity {
-  final DateTime date;
-  final DateTime? lastBowelTime;
-  final int consecutiveDays;
-  final int weeklyBowelCount;
-  final int waterIntakeMl;
-  final int waterGoalMl;
-
+  /// 일일 요약 엔티티 생성자
+  /// [date] 날짜
+  /// [lastBowelTime] 마지막 배변 시간
+  /// [consecutiveDays] 연속 기록 일수
+  /// [weeklyBowelCount] 주간 배변 횟수
+  /// [waterIntakeMl] 수분 섭취량 (ml)
+  /// [waterGoalMl] 수분 목표량 (ml)
   const DailySummaryEntity({
     required this.date,
-    this.lastBowelTime,
     required this.consecutiveDays,
     required this.weeklyBowelCount,
     required this.waterIntakeMl,
     required this.waterGoalMl,
+    this.lastBowelTime,
   });
+
+  /// 날짜
+  final DateTime date;
+
+  /// 마지막 배변 시간
+  final DateTime? lastBowelTime;
+
+  /// 연속 기록 일수
+  final int consecutiveDays;
+
+  /// 주간 배변 횟수
+  final int weeklyBowelCount;
+
+  /// 수분 섭취량 (ml)
+  final int waterIntakeMl;
+
+  /// 수분 목표량 (ml)
+  final int waterGoalMl;
 
   /// 수분 섭취 진행률 (0.0 ~ 1.0)
   double get waterProgress =>

@@ -1,15 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/usecase/create_record_usecase.dart';
-import 'record_form_state.dart';
+import 'package:poozizic/feature/record/domain/usecase/create_record_usecase.dart';
+import 'package:poozizic/feature/record/presentation/provider/record_form_state.dart';
 
 /// Record Form Notifier
 class RecordFormNotifier extends StateNotifier<RecordFormState> {
+  /// Record Form Notifier 생성자
   RecordFormNotifier(this._createRecordUseCase)
-      : super(const RecordFormInProgress(currentStep: 0));
+    : super(const RecordFormInProgress(currentStep: 0));
 
+  /// 기록 생성 UseCase
   final CreateRecordUseCase _createRecordUseCase;
 
   /// Bristol Type 선택
+  /// [type] 브리스톨 타입
   void selectBristolType(int type) {
     final current = state;
     if (current is RecordFormInProgress) {

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import '../../di/calendar_providers.dart';
-import '../provider/calendar_state.dart';
-import '../widget/statistics_card.dart';
-import '../widget/record_list_card.dart';
+import 'package:poozizic/feature/calendar/di/calendar_providers.dart';
+import 'package:poozizic/feature/calendar/presentation/provider/calendar_state.dart';
+import 'package:poozizic/feature/calendar/presentation/widget/record_list_card.dart';
+import 'package:poozizic/feature/calendar/presentation/widget/statistics_card.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 /// 캘린더 페이지 (Clean Architecture)
 class CalendarPage extends ConsumerStatefulWidget {
+  /// 캘린더 페이지 생성자
+  /// [key] 키
   const CalendarPage({super.key});
 
+  /// 캘린더 페이지 생성자
   @override
   ConsumerState<CalendarPage> createState() => _CalendarPageState();
 }
@@ -32,10 +35,7 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
       appBar: AppBar(
         title: const Text(
           '캘린더',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -45,20 +45,20 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
         CalendarInitial() => const Center(child: CircularProgressIndicator()),
         CalendarLoading() => const Center(child: CircularProgressIndicator()),
         CalendarError(:final message) => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                const SizedBox(height: 16),
-                Text(message),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => notifier.refresh(),
-                  child: const Text('다시 시도'),
-                ),
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              const SizedBox(height: 16),
+              Text(message),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: notifier.refresh,
+                child: const Text('다시 시도'),
+              ),
+            ],
           ),
+        ),
         CalendarLoaded(
           :final focusedMonth,
           :final selectedDay,
@@ -70,10 +70,10 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
             child: Column(
               children: [
                 // 캘린더
-                Container(
+                ColoredBox(
                   color: Colors.white,
-                  child: TableCalendar(
-                    firstDay: DateTime.utc(2020, 1, 1),
+                  child: TableCalendar<dynamic>(
+                    firstDay: DateTime.utc(2020),
                     lastDay: DateTime.utc(2030, 12, 31),
                     focusedDay: focusedMonth,
                     calendarFormat: _calendarFormat,
@@ -90,9 +90,7 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                         });
                       }
                     },
-                    onPageChanged: (focusedDay) {
-                      notifier.changeMonth(focusedDay);
-                    },
+                    onPageChanged: notifier.changeMonth,
                     calendarStyle: CalendarStyle(
                       todayDecoration: BoxDecoration(
                         color: const Color(0xFFFF6B35),
@@ -127,7 +125,7 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                       cellMargin: const EdgeInsets.all(4),
                       cellPadding: const EdgeInsets.symmetric(vertical: 8),
                     ),
-                    calendarBuilders: CalendarBuilders(
+                    calendarBuilders: CalendarBuilders<dynamic>(
                       defaultBuilder: (context, day, focusedDay) {
                         final dateKey = _normalizeDate(day);
                         final hasRecords = recordDays.containsKey(dateKey);
@@ -152,7 +150,8 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                       formatButtonVisible: false,
                       titleCentered: true,
                       titleTextFormatter: (date, locale) {
-                        return DateFormat('yyyy년 M월', locale).format(date);
+                        return DateFormat('yyyy년 M월', locale as String?)
+                            .format(date);
                       },
                       titleTextStyle: const TextStyle(
                         fontSize: 18,
@@ -221,10 +220,7 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
           children: [
             Text(
               '${day.day}',
-              style: const TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 15,
-              ),
+              style: const TextStyle(color: Color(0xFF333333), fontSize: 15),
             ),
             const SizedBox(height: 4),
             Container(

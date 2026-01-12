@@ -1,23 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../domain/entity/recent_record_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/recent_record_entity.dart';
 
 /// 최근 기록 섹션 위젯
 class RecentRecordsSection extends StatelessWidget {
-  final DateTime selectedDate;
-  final List<RecentRecordEntity> records;
-  final VoidCallback onPreviousDay;
-  final VoidCallback onNextDay;
-  final VoidCallback? onCalendarTap;
-
+  /// 최근 기록 섹션 위젯 생성자
+  /// [selectedDate] 선택된 날짜
+  /// [records] 최근 기록 엔티티 목록
+  /// [onPreviousDay] 이전 날짜 탭 콜백
+  /// [onNextDay] 다음 날짜 탭 콜백
+  /// [onCalendarTap] 캘린더로 보기 탭 콜백
   const RecentRecordsSection({
-    super.key,
     required this.selectedDate,
     required this.records,
     required this.onPreviousDay,
     required this.onNextDay,
+    super.key,
     this.onCalendarTap,
   });
+
+  /// 선택된 날짜
+  final DateTime selectedDate;
+
+  /// 최근 기록 엔티티 목록
+  final List<RecentRecordEntity> records;
+
+  /// 이전 날짜 탭 콜백
+  final VoidCallback onPreviousDay;
+
+  /// 다음 날짜 탭 콜백
+  final VoidCallback onNextDay;
+
+  /// 캘린더로 보기 탭 콜백
+  final VoidCallback? onCalendarTap;
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +57,10 @@ class RecentRecordsSection extends StatelessWidget {
                 children: [
                   const Text(
                     '캘린더로 보기',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF999999),
-                    ),
+                    style: TextStyle(fontSize: 14, color: Color(0xFF999999)),
                   ),
                   const SizedBox(width: 4),
-                  Icon(
-                    Icons.chevron_right,
-                    size: 18,
-                    color: Colors.grey[400],
-                  ),
+                  Icon(Icons.chevron_right, size: 18, color: Colors.grey[400]),
                 ],
               ),
             ),
@@ -112,18 +120,17 @@ class RecentRecordsSection extends StatelessWidget {
             child: const Center(
               child: Text(
                 '이 날의 기록이 없습니다',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF999999),
-                ),
+                style: TextStyle(fontSize: 14, color: Color(0xFF999999)),
               ),
             ),
           )
         else
-          ...records.map((record) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: _buildRecordCard(record),
-              )),
+          ...records.map(
+            (record) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _buildRecordCard(record),
+            ),
+          ),
 
         // 팁 카드
         Container(
@@ -152,11 +159,7 @@ class RecentRecordsSection extends StatelessWidget {
                     SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(
-                          Icons.check,
-                          size: 16,
-                          color: Color(0xFF27AE60),
-                        ),
+                        Icon(Icons.check, size: 16, color: Color(0xFF27AE60)),
                         SizedBox(width: 4),
                         Text(
                           '규칙적인 배변 패턴을 보이고 있습니다',

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../di/exercise_record_providers.dart';
-import '../provider/exercise_record_form_state.dart';
-import '../widget/exercise_type_grid.dart';
-import '../widget/duration_slider.dart';
-import '../widget/intensity_selector.dart';
-import '../../../home/di/home_providers.dart';
-import '../../../analytics/di/analytics_providers.dart';
+import 'package:poozizic/feature/analytics/di/analytics_providers.dart';
+import 'package:poozizic/feature/exercise_record/di/exercise_record_providers.dart';
+import 'package:poozizic/feature/exercise_record/presentation/provider/exercise_record_form_state.dart';
+import 'package:poozizic/feature/exercise_record/presentation/widget/duration_slider.dart';
+import 'package:poozizic/feature/exercise_record/presentation/widget/exercise_type_grid.dart';
+import 'package:poozizic/feature/exercise_record/presentation/widget/intensity_selector.dart';
+import 'package:poozizic/feature/home/di/home_providers.dart';
 
 /// 운동 기록 페이지
 class ExerciseRecordPage extends ConsumerStatefulWidget {
+  /// 운동 기록 페이지 생성자
   const ExerciseRecordPage({super.key});
 
   @override
@@ -23,8 +24,10 @@ class _ExerciseRecordPageState extends ConsumerState<ExerciseRecordPage> {
     final notifier = ref.read(exerciseRecordFormNotifierProvider.notifier);
 
     // 성공 시 화면 닫기
-    ref.listen<ExerciseRecordFormState>(exerciseRecordFormNotifierProvider,
-        (previous, next) {
+    ref.listen<ExerciseRecordFormState>(exerciseRecordFormNotifierProvider, (
+      previous,
+      next,
+    ) {
       if (next is ExerciseRecordFormSuccess) {
         // Home, Analytics 화면 갱신
         refreshHome(ref);
@@ -33,7 +36,8 @@ class _ExerciseRecordPageState extends ConsumerState<ExerciseRecordPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              '${next.record.exerciseTypeName} ${next.record.durationMinutes}분이 기록되었습니다',
+              '${next.record.exerciseTypeName}'
+              ' ${next.record.durationMinutes}분이 기록되었습니다',
             ),
             backgroundColor: const Color(0xFF4CAF50),
             behavior: SnackBarBehavior.floating,
@@ -56,8 +60,8 @@ class _ExerciseRecordPageState extends ConsumerState<ExerciseRecordPage> {
     int? selectedExercise;
     double duration = 30;
     int? selectedIntensity;
-    bool canSubmit = false;
-    bool isSubmitting = false;
+    var canSubmit = false;
+    var isSubmitting = false;
 
     if (state is ExerciseRecordFormInProgress) {
       selectedExercise = state.selectedExercise;
@@ -190,8 +194,9 @@ class _ExerciseRecordPageState extends ConsumerState<ExerciseRecordPage> {
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
                           ),
                         )
                       : const Row(

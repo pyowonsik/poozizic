@@ -2,16 +2,25 @@ import 'package:flutter/material.dart';
 
 /// 음식 입력 섹션 위젯
 class FoodInputSection extends StatefulWidget {
-  final List<String> foods;
-  final void Function(String food) onFoodAdded;
-  final void Function(String food) onFoodRemoved;
-
+  /// 음식 입력 섹션 위젯 생성자
+  /// [foods] 음식 목록
+  /// [onFoodAdded] 음식 추가 콜백
+  /// [onFoodRemoved] 음식 제거 콜백
   const FoodInputSection({
-    super.key,
     required this.foods,
     required this.onFoodAdded,
     required this.onFoodRemoved,
+    super.key,
   });
+
+  /// 음식 목록
+  final List<String> foods;
+
+  /// 음식 추가 콜백
+  final void Function(String food) onFoodAdded;
+
+  /// 음식 제거 콜백
+  final void Function(String food) onFoodRemoved;
 
   @override
   State<FoodInputSection> createState() => _FoodInputSectionState();
@@ -74,11 +83,7 @@ class _FoodInputSectionState extends State<FoodInputSection> {
               ),
               child: IconButton(
                 onPressed: _addFood,
-                icon: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 24,
-                ),
+                icon: const Icon(Icons.add, color: Colors.white, size: 24),
               ),
             ),
           ],

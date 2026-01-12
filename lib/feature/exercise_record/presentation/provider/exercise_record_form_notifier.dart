@@ -1,30 +1,38 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/usecase/create_exercise_record_usecase.dart';
-import 'exercise_record_form_state.dart';
+import 'package:poozizic/feature/exercise_record/domain/usecase/create_exercise_record_usecase.dart';
+import 'package:poozizic/feature/exercise_record/presentation/provider/exercise_record_form_state.dart';
 
 /// 운동 타입 정보
 class ExerciseType {
-  final String emoji;
-  final String label;
-
+  /// 운동 타입 정보 생성자
   const ExerciseType({required this.emoji, required this.label});
+
+  /// 운돱 타입 이모지
+  final String emoji;
+
+  /// 운동 타입 라벨
+  final String label;
 }
 
 /// 강도 정보
 class Intensity {
-  final String emoji;
-  final String label;
-
+  /// 강도 정보 생성자
   const Intensity({required this.emoji, required this.label});
+
+  /// 강도 이모지
+  final String emoji;
+
+  /// 강도 라벨
+  final String label;
 }
 
 /// ExerciseRecord 폼 Notifier
 class ExerciseRecordFormNotifier
     extends StateNotifier<ExerciseRecordFormState> {
-  final CreateExerciseRecordUseCase _createExerciseRecordUseCase;
-
+  /// ExerciseRecord 폼 Notifier 생성자
   ExerciseRecordFormNotifier(this._createExerciseRecordUseCase)
-      : super(const ExerciseRecordFormInProgress());
+    : super(const ExerciseRecordFormInProgress());
+  final CreateExerciseRecordUseCase _createExerciseRecordUseCase;
 
   /// 운동 타입 목록
   static const List<ExerciseType> exerciseTypes = [
@@ -90,12 +98,13 @@ class ExerciseRecordFormNotifier
       selectedIntensity: currentState.selectedIntensity!,
     );
 
-    final result =
-        await _createExerciseRecordUseCase(CreateExerciseRecordParams(
-      exerciseType: currentState.selectedExercise!,
-      durationMinutes: currentState.duration.toInt(),
-      intensity: currentState.selectedIntensity!,
-    ));
+    final result = await _createExerciseRecordUseCase(
+      CreateExerciseRecordParams(
+        exerciseType: currentState.selectedExercise!,
+        durationMinutes: currentState.duration.toInt(),
+        intensity: currentState.selectedIntensity!,
+      ),
+    );
 
     result.fold(
       (failure) {

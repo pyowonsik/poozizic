@@ -1,12 +1,13 @@
-import '../../domain/entity/water_record_entity.dart';
-import '../../domain/repository/water_record_repository.dart';
-import '../datasource/water_record_local_datasource.dart';
+import 'package:poozizic/feature/water_record/data/datasource/water_record_local_datasource.dart';
+import 'package:poozizic/feature/water_record/domain/entity/water_record_entity.dart';
+import 'package:poozizic/feature/water_record/domain/repository/water_record_repository.dart';
 
 /// WaterRecord Repository 구현체
 class WaterRecordRepositoryImpl implements WaterRecordRepository {
-  final WaterRecordLocalDataSource _dataSource;
-
+  /// WaterRecord Repository 구현체 생성자
   WaterRecordRepositoryImpl(this._dataSource);
+
+  final WaterRecordLocalDataSource _dataSource;
 
   @override
   Future<WaterRecordEntity> createRecord(WaterRecordEntity record) {

@@ -1,4 +1,4 @@
-import '../entity/record_entity.dart';
+import 'package:poozizic/feature/record/domain/entity/record_entity.dart';
 
 /// Record Repository 인터페이스
 abstract class RecordRepository {

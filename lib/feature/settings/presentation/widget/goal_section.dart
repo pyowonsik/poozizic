@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
-import '../../domain/entity/settings_entity.dart';
+import 'package:poozizic/feature/settings/domain/entity/settings_entity.dart';
 
+/// 목표 섹션 위젯
 class GoalSection extends StatelessWidget {
+  /// 목표 섹션 위젯 생성자
+  /// [settings] 설정 엔티티
+  /// [onWaterGoalTap] 수분 목표 탭 콜백
+  /// [onBowelGoalTap] 배변 목표 탭 콜백
   const GoalSection({
-    super.key,
     required this.settings,
     required this.onWaterGoalTap,
     required this.onBowelGoalTap,
+    super.key,
   });
 
+  /// 설정 엔티티
   final SettingsEntity settings;
+
+  /// 수분 목표 탭 콜백
   final VoidCallback onWaterGoalTap;
+
+  /// 배변 목표 탭 콜백
   final VoidCallback onBowelGoalTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,10 +51,7 @@ class GoalSection extends StatelessWidget {
             title: '일일 수분 목표',
             trailing: Text(
               '${settings.waterGoal}ml',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Color(0xFF999999),
-              ),
+              style: const TextStyle(fontSize: 14, color: Color(0xFF999999)),
             ),
             onTap: onWaterGoalTap,
           ),
@@ -52,10 +59,7 @@ class GoalSection extends StatelessWidget {
             title: '이상적인 배변 횟수',
             trailing: Text(
               '${settings.bowelGoal}회/일',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Color(0xFF999999),
-              ),
+              style: const TextStyle(fontSize: 14, color: Color(0xFF999999)),
             ),
             onTap: onBowelGoalTap,
           ),
@@ -64,6 +68,7 @@ class GoalSection extends StatelessWidget {
     );
   }
 
+  /// 리스트 타일 위젯 생성
   Widget _buildListTile({
     required String title,
     Widget? trailing,
@@ -78,10 +83,7 @@ class GoalSection extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Color(0xFF000000),
-              ),
+              style: const TextStyle(fontSize: 15, color: Color(0xFF000000)),
             ),
             if (trailing != null)
               trailing
