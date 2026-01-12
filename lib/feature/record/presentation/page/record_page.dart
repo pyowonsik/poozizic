@@ -6,6 +6,8 @@ import '../provider/record_form_state.dart';
 import '../widget/bristol_scale_step.dart';
 import '../widget/feeling_step.dart';
 import '../widget/time_step.dart';
+import '../../../home/di/home_providers.dart';
+import '../../../analytics/di/analytics_providers.dart';
 
 /// 배변 기록 페이지 (Clean Architecture)
 class RecordPage extends ConsumerStatefulWidget {
@@ -24,6 +26,9 @@ class _RecordPageState extends ConsumerState<RecordPage> {
     // 성공 시 처리
     ref.listen<RecordFormState>(recordFormNotifierProvider, (previous, next) {
       if (next is RecordFormSuccess) {
+        // Home, Analytics 화면 갱신
+        refreshHome(ref);
+        refreshAnalytics(ref);
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
