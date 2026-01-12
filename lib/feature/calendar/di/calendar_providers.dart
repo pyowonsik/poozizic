@@ -7,10 +7,10 @@ import 'package:poozizic/feature/calendar/presentation/provider/calendar_notifie
 import 'package:poozizic/feature/calendar/presentation/provider/calendar_state.dart';
 import 'package:poozizic/feature/record/di/record_providers.dart';
 
-/// Repository Provider (RecordLocalDataSource 재사용)
+/// Repository Provider (RecordRepository 재사용)
 final calendarRepositoryProvider = Provider<CalendarRepository>((ref) {
-  final recordDataSource = ref.watch(recordLocalDataSourceProvider);
-  return CalendarRepositoryImpl(recordDataSource);
+  final recordRepository = ref.watch(recordRepositoryProvider);
+  return CalendarRepositoryImpl(recordRepository);
 });
 
 /// UseCase Providers

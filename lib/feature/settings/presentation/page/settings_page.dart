@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:poozizic/feature/auth/di/auth_providers.dart';
+import 'package:poozizic/feature/auth/presentation/page/login_page.dart';
 import 'package:poozizic/feature/settings/di/settings_providers.dart';
 import 'package:poozizic/feature/settings/presentation/provider/settings_notifier.dart';
 import 'package:poozizic/feature/settings/presentation/provider/settings_state.dart';
@@ -166,7 +168,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 child: SizedBox(
                   width: double.infinity,
                   child: OutlinedButton(
-                    onPressed: () => _showConfirmDialog('로그아웃', '로그아웃 하시겠습니까?'),
+                    onPressed: _showLogoutDialog,
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       side: const BorderSide(
@@ -567,5 +569,18 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _showLogoutDialog() async {
+    // 테스트용: 다이얼로그 없이 바로 로그아웃
+    await ref.read(authNotifierProvider.notifier).signOut();
+    if (mounted) {
+      await Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute<void>(
+          builder: (context) => const LoginPage(),
+        ),
+        (route) => false,
+      );
+    }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:poozizic/core/supabase/supabase_config.dart';
 import 'package:poozizic/feature/analytics/presentation/page/analytics_page.dart';
+import 'package:poozizic/feature/auth/presentation/page/splash_page.dart';
 import 'package:poozizic/feature/calendar/presentation/page/calendar_page.dart';
 import 'package:poozizic/feature/exercise_record/presentation/page/exercise_record_page.dart';
 import 'package:poozizic/feature/home/presentation/page/home_page.dart';
@@ -13,6 +15,7 @@ import 'package:poozizic/feature/water_record/presentation/page/water_record_pag
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ko_KR');
+  await SupabaseConfig.initialize();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -52,7 +55,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainScreen(),
+      home: const SplashPage(),
     );
   }
 }

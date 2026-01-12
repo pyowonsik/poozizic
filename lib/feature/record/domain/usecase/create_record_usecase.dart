@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:poozizic/feature/record/domain/entity/record_entity.dart';
 import 'package:poozizic/feature/record/domain/failure/record_failure.dart';
@@ -20,6 +22,10 @@ class CreateRecordUseCase
 
   @override
   Future<Either<Failure, RecordEntity>> call(CreateRecordParams params) async {
+    log('[CreateRecordUseCase] 호출됨');
+    log('[CreateRecordUseCase] params: bristolType=${params.bristolType}, '
+        'feeling=${params.feeling}, duration=${params.durationMinutes}');
+
     try {
       final record = RecordEntity(
         dateTime: DateTime.now(),
@@ -29,9 +35,14 @@ class CreateRecordUseCase
         memo: params.memo,
         createdAt: DateTime.now(),
       );
+      log('[CreateRecordUseCase] RecordEntity 생성 완료');
+
       final result = await repository.createRecord(record);
+      log('[CreateRecordUseCase] 저장 성공! id=${result.id}');
       return Right(result);
-    } on Exception catch (e) {
+    } on Exception catch (e, stackTrace) {
+      log('[CreateRecordUseCase] ERROR: $e');
+      log('[CreateRecordUseCase] StackTrace: $stackTrace');
       return Left(CreateRecordFailure('기록을 저장할 수 없습니다.', exception: e));
     }
   }
