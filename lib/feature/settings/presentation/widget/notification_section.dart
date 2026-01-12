@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/entity/settings_entity.dart';
+import 'settings_switch_tile.dart';
 
 class NotificationSection extends StatelessWidget {
   const NotificationSection({
@@ -39,48 +40,20 @@ class NotificationSection extends StatelessWidget {
               ],
             ),
           ),
-          _buildSwitchTile(
+          SettingsSwitchTile(
             title: '배변 기록 리마인더',
             value: settings.bowelReminder,
             onChanged: onBowelReminderChanged,
           ),
-          _buildSwitchTile(
+          SettingsSwitchTile(
             title: '수분 섭취 알림',
             value: settings.waterReminder,
             onChanged: onWaterReminderChanged,
           ),
-          _buildSwitchTile(
+          SettingsSwitchTile(
             title: '주간 리포트',
             value: settings.weeklyReport,
             onChanged: onWeeklyReportChanged,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSwitchTile({
-    required String title,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 15,
-              color: Color(0xFF000000),
-            ),
-          ),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeThumbColor: const Color(0xFFFF6B35),
-            activeTrackColor: const Color(0xFFFF6B35).withValues(alpha: 0.5),
           ),
         ],
       ),

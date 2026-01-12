@@ -4,8 +4,9 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import '../../di/calendar_providers.dart';
 import '../provider/calendar_state.dart';
-import '../widget/statistics_card.dart';
-import '../widget/record_list_card.dart';
+import '../widget/widget.dart';
+import '../../../../shared/widget/pz_loading_view.dart';
+import '../../../../shared/widget/pz_error_view.dart';
 
 /// 캘린더 페이지 (Clean Architecture)
 class CalendarPage extends ConsumerStatefulWidget {
@@ -32,33 +33,19 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
       appBar: AppBar(
         title: const Text(
           '캘린더',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
       ),
       body: switch (state) {
-        CalendarInitial() => const Center(child: CircularProgressIndicator()),
-        CalendarLoading() => const Center(child: CircularProgressIndicator()),
-        CalendarError(:final message) => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                const SizedBox(height: 16),
-                Text(message),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => notifier.refresh(),
-                  child: const Text('다시 시도'),
-                ),
-              ],
-            ),
-          ),
+        CalendarInitial() => const PzLoadingView(),
+        CalendarLoading() => const PzLoadingView(),
+        CalendarError(:final message) => PzErrorView(
+          message: message,
+          onRetry: () => notifier.refresh(),
+        ),
         CalendarLoaded(
           :final focusedMonth,
           :final selectedDay,
@@ -133,19 +120,25 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
                         final hasRecords = recordDays.containsKey(dateKey);
 
                         if (hasRecords) {
-                          return _buildDayWithMarker(day, false, false);
+                          return CalendarDayCell(day: day);
                         }
                         return null;
                       },
                       todayBuilder: (context, day, focusedDay) {
                         final dateKey = _normalizeDate(day);
                         final hasRecords = recordDays.containsKey(dateKey);
-                        return _buildTodayOrSelectedDay(day, hasRecords);
+                        return CalendarTodayCell(
+                          day: day,
+                          hasRecords: hasRecords,
+                        );
                       },
                       selectedBuilder: (context, day, focusedDay) {
                         final dateKey = _normalizeDate(day);
                         final hasRecords = recordDays.containsKey(dateKey);
-                        return _buildTodayOrSelectedDay(day, hasRecords);
+                        return CalendarTodayCell(
+                          day: day,
+                          hasRecords: hasRecords,
+                        );
                       },
                     ),
                     headerStyle: HeaderStyle(
@@ -205,75 +198,6 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
             ),
           ),
       },
-    );
-  }
-
-  Widget _buildDayWithMarker(DateTime day, bool isToday, bool isSelected) {
-    return Container(
-      margin: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE8F5E9),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '${day.day}',
-              style: const TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 15,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Container(
-              width: 5,
-              height: 5,
-              decoration: const BoxDecoration(
-                color: Color(0xFF4CAF50),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTodayOrSelectedDay(DateTime day, bool hasRecords) {
-    return Container(
-      margin: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFF6B35),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '${day.day}',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            if (hasRecords) ...[
-              const SizedBox(height: 4),
-              Container(
-                width: 5,
-                height: 5,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
     );
   }
 }

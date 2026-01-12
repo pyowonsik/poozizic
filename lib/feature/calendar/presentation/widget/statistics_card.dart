@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/entity/calendar_statistics.dart';
+import 'stat_item.dart';
 
 class StatisticsCard extends StatelessWidget {
   const StatisticsCard({
@@ -28,56 +29,33 @@ class StatisticsCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStatItem(
-            '${statistics.totalRecordsThisMonth}',
-            '이번 달',
-            Colors.black,
+          StatItem(
+            value: '${statistics.totalRecordsThisMonth}',
+            label: '이번 달',
+            valueColor: Colors.black,
           ),
           Container(
             width: 1,
             height: 40,
             color: Colors.grey[200],
           ),
-          _buildStatItem(
-            '${statistics.healthyPercentage.toStringAsFixed(0)}%',
-            '정상 비율',
-            const Color(0xFF27AE60),
+          StatItem(
+            value: '${statistics.healthyPercentage.toStringAsFixed(0)}%',
+            label: '정상 비율',
+            valueColor: const Color(0xFF27AE60),
           ),
           Container(
             width: 1,
             height: 40,
             color: Colors.grey[200],
           ),
-          _buildStatItem(
-            '${statistics.averageIntervalDays.toStringAsFixed(1)}일',
-            '평균 간격',
-            const Color(0xFFFF6B35),
+          StatItem(
+            value: '${statistics.averageIntervalDays.toStringAsFixed(1)}일',
+            label: '평균 간격',
+            valueColor: const Color(0xFFFF6B35),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildStatItem(String value, String label, Color valueColor) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: valueColor,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            color: Color(0xFF666666),
-          ),
-        ),
-      ],
     );
   }
 }

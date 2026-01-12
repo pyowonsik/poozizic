@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/entity/settings_entity.dart';
+import 'goal_list_tile.dart';
 
 class GoalSection extends StatelessWidget {
   const GoalSection({
@@ -37,7 +38,7 @@ class GoalSection extends StatelessWidget {
               ],
             ),
           ),
-          _buildListTile(
+          GoalListTile(
             title: '일일 수분 목표',
             trailing: Text(
               '${settings.waterGoal}ml',
@@ -48,7 +49,7 @@ class GoalSection extends StatelessWidget {
             ),
             onTap: onWaterGoalTap,
           ),
-          _buildListTile(
+          GoalListTile(
             title: '이상적인 배변 횟수',
             trailing: Text(
               '${settings.bowelGoal}회/일',
@@ -60,39 +61,6 @@ class GoalSection extends StatelessWidget {
             onTap: onBowelGoalTap,
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildListTile({
-    required String title,
-    Widget? trailing,
-    VoidCallback? onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Color(0xFF000000),
-              ),
-            ),
-            if (trailing != null)
-              trailing
-            else if (onTap != null)
-              const Icon(
-                Icons.chevron_right,
-                color: Color(0xFFCCCCCC),
-                size: 20,
-              ),
-          ],
-        ),
       ),
     );
   }

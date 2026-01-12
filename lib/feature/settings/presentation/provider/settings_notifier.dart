@@ -10,6 +10,8 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
 
   final SettingsRepository _repository;
 
+  // Public Methods (UseCase 호출)
+
   Future<void> loadSettings() async {
     state = const SettingsLoading();
 
@@ -84,18 +86,20 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
     await _updateSettings(newSettings);
   }
 
-  Future<void> _updateSettings(SettingsEntity newSettings) async {
-    final result = await _repository.updateSettings(newSettings);
+  Future<void> resetSettings() async {
+    state = const SettingsLoading();
+
+    final result = await _repository.resetSettings();
     result.fold(
       (failure) => state = SettingsError(failure.message),
       (settings) => state = SettingsLoaded(settings),
     );
   }
 
-  Future<void> resetSettings() async {
-    state = const SettingsLoading();
+  // Private Helper Methods
 
-    final result = await _repository.resetSettings();
+  Future<void> _updateSettings(SettingsEntity newSettings) async {
+    final result = await _repository.updateSettings(newSettings);
     result.fold(
       (failure) => state = SettingsError(failure.message),
       (settings) => state = SettingsLoaded(settings),

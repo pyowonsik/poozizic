@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'screens/home_screen.dart';
-import 'feature/calendar/presentation/page/calendar_page.dart';
-import 'feature/record/presentation/page/record_page.dart';
-import 'feature/settings/presentation/page/settings_page.dart';
-import 'screens/analytics_screen.dart';
-import 'screens/meal_record_screen.dart';
-import 'screens/water_record_screen.dart';
-import 'screens/exercise_record_screen.dart';
+import 'feature/home/presentation/presentation.dart';
+import 'feature/calendar/presentation/presentation.dart';
+import 'feature/record/presentation/presentation.dart';
+import 'feature/settings/presentation/presentation.dart';
+import 'feature/analytics/presentation/presentation.dart';
+import 'feature/meal/presentation/presentation.dart';
+import 'feature/water/presentation/presentation.dart';
+import 'feature/exercise/presentation/presentation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -152,7 +152,7 @@ class _MainScreenState extends State<MainScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MealRecordScreen(),
+                    builder: (context) => const MealRecordPage(),
                   ),
                 );
               },
@@ -171,7 +171,7 @@ class _MainScreenState extends State<MainScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const WaterRecordScreen(),
+                    builder: (context) => const WaterRecordPage(),
                   ),
                 );
               },
@@ -190,7 +190,7 @@ class _MainScreenState extends State<MainScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ExerciseRecordScreen(),
+                    builder: (context) => const ExerciseRecordPage(),
                   ),
                 );
               },

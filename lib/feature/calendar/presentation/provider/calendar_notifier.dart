@@ -11,15 +11,7 @@ class CalendarNotifier extends StateNotifier<CalendarState> {
 
   final CalendarRepository _repository;
 
-  DateTime _normalizeDate(DateTime date) {
-    return DateTime(date.year, date.month, date.day);
-  }
-
-  Future<void> _init() async {
-    final now = DateTime.now();
-    await loadMonth(now);
-    selectDay(now);
-  }
+  // Public Methods (UseCase 호출)
 
   Future<void> loadMonth(DateTime month) async {
     state = const CalendarLoading();
@@ -84,5 +76,17 @@ class CalendarNotifier extends StateNotifier<CalendarState> {
         await selectDay(current.selectedDay!);
       }
     }
+  }
+
+  // Private Helper Methods
+
+  Future<void> _init() async {
+    final now = DateTime.now();
+    await loadMonth(now);
+    selectDay(now);
+  }
+
+  DateTime _normalizeDate(DateTime date) {
+    return DateTime(date.year, date.month, date.day);
   }
 }
