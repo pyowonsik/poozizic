@@ -67,11 +67,12 @@ class BristolScaleStep extends StatelessWidget {
           const SizedBox(height: 24),
           ...List.generate(bristolTypes.length, (index) {
             final type = bristolTypes[index];
-            final isSelected = selectedType == index;
+            final bristolValue = index + 1; // Bristol scale은 1-7
+            final isSelected = selectedType == bristolValue;
             final hasBadge = type.containsKey('badge');
 
             return GestureDetector(
-              onTap: () => onTypeSelected(index),
+              onTap: () => onTypeSelected(bristolValue),
               child: Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(20),

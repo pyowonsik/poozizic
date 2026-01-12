@@ -1,6 +1,10 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:poozizic/core/network/network_info.dart';
+import 'package:poozizic/core/supabase/supabase_config.dart';
 import 'package:poozizic/feature/calendar/di/calendar_providers.dart';
 import 'package:poozizic/feature/record/data/datasource/record_local_datasource.dart';
+import 'package:poozizic/feature/record/data/datasource/record_remote_datasource.dart';
 import 'package:poozizic/feature/record/data/repository/record_repository_impl.dart';
 import 'package:poozizic/feature/record/domain/entity/record_entity.dart';
 import 'package:poozizic/feature/record/domain/repository/record_repository.dart';
@@ -11,15 +15,27 @@ import 'package:poozizic/feature/record/presentation/provider/record_form_notifi
 import 'package:poozizic/feature/record/presentation/provider/record_form_state.dart';
 import 'package:poozizic/shared/domain/usecase/usecase.dart';
 
+/// NetworkInfo Provider
+final networkInfoProvider = Provider<NetworkInfo>((ref) {
+  return NetworkInfoImpl(Connectivity());
+});
+
 /// DataSource Provider (Singleton으로 데이터 유지)
 final recordLocalDataSourceProvider = Provider<RecordLocalDataSource>((ref) {
   return RecordLocalDataSource();
 });
 
+/// Remote DataSource Provider
+final recordRemoteDataSourceProvider = Provider<RecordRemoteDataSource>((ref) {
+  return RecordRemoteDataSource(SupabaseConfig.client);
+});
+
 /// Repository Provider
 final recordRepositoryProvider = Provider<RecordRepository>((ref) {
-  final dataSource = ref.watch(recordLocalDataSourceProvider);
-  return RecordRepositoryImpl(dataSource);
+  final localDataSource = ref.watch(recordLocalDataSourceProvider);
+  final remoteDataSource = ref.watch(recordRemoteDataSourceProvider);
+  final networkInfo = ref.watch(networkInfoProvider);
+  return RecordRepositoryImpl(localDataSource, remoteDataSource, networkInfo);
 });
 
 /// CreateRecordUseCase Provider

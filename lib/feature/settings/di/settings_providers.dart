@@ -1,5 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:poozizic/core/supabase/supabase_config.dart';
+import 'package:poozizic/feature/record/di/record_providers.dart';
 import 'package:poozizic/feature/settings/data/datasource/settings_local_datasource.dart';
+import 'package:poozizic/feature/settings/data/datasource/settings_remote_datasource.dart';
 import 'package:poozizic/feature/settings/data/repository/settings_repository_impl.dart';
 import 'package:poozizic/feature/settings/domain/repository/settings_repository.dart';
 import 'package:poozizic/feature/settings/domain/usecase/get_settings_usecase.dart';
@@ -14,10 +17,23 @@ final settingsLocalDataSourceProvider = Provider<SettingsLocalDataSource>((
   return SettingsLocalDataSource();
 });
 
+/// Remote DataSource Provider
+final settingsRemoteDataSourceProvider = Provider<SettingsRemoteDataSource>((
+  ref,
+) {
+  return SettingsRemoteDataSource(SupabaseConfig.client);
+});
+
 /// Repository Provider
 final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {
-  final dataSource = ref.watch(settingsLocalDataSourceProvider);
-  return SettingsRepositoryImpl(dataSource);
+  final localDataSource = ref.watch(settingsLocalDataSourceProvider);
+  final remoteDataSource = ref.watch(settingsRemoteDataSourceProvider);
+  final networkInfo = ref.watch(networkInfoProvider);
+  return SettingsRepositoryImpl(
+    localDataSource,
+    remoteDataSource,
+    networkInfo,
+  );
 });
 
 /// UseCase Providers

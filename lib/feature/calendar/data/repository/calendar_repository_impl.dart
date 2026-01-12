@@ -2,16 +2,16 @@ import 'package:dartz/dartz.dart';
 import 'package:poozizic/feature/calendar/domain/entity/calendar_statistics.dart';
 import 'package:poozizic/feature/calendar/domain/failure/calendar_failure.dart';
 import 'package:poozizic/feature/calendar/domain/repository/calendar_repository.dart';
-import 'package:poozizic/feature/record/data/datasource/record_local_datasource.dart';
 import 'package:poozizic/feature/record/domain/entity/record_entity.dart';
+import 'package:poozizic/feature/record/domain/repository/record_repository.dart';
 import 'package:poozizic/shared/domain/failure/failure.dart';
 
 /// Calendar Repository 구현체
 class CalendarRepositoryImpl implements CalendarRepository {
   /// Calendar Repository 구현체 생성자
-  CalendarRepositoryImpl(this._recordDataSource);
+  CalendarRepositoryImpl(this._recordRepository);
 
-  final RecordLocalDataSource _recordDataSource;
+  final RecordRepository _recordRepository;
 
   DateTime _normalizeDate(DateTime date) {
     return DateTime(date.year, date.month, date.day);
@@ -22,12 +22,12 @@ class CalendarRepositoryImpl implements CalendarRepository {
     DateTime month,
   ) async {
     try {
-      final allRecords = await _recordDataSource.getAllRecords();
-      final monthRecords = allRecords.where((record) {
-        return record.dateTime.year == month.year &&
-            record.dateTime.month == month.month;
-      }).toList()..sort((a, b) => b.dateTime.compareTo(a.dateTime));
-      return Right(monthRecords);
+      final records = await _recordRepository.getRecordsByMonth(
+        month.year,
+        month.month,
+      );
+      records.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+      return Right(records);
     } catch (e, st) {
       return Left(
         GetCalendarRecordsFailure(
@@ -44,7 +44,7 @@ class CalendarRepositoryImpl implements CalendarRepository {
     DateTime date,
   ) async {
     try {
-      final records = await _recordDataSource.getRecordsByDate(date);
+      final records = await _recordRepository.getRecordsByDate(date);
       records.sort((a, b) => b.dateTime.compareTo(a.dateTime));
       return Right(records);
     } catch (e, st) {
@@ -63,11 +63,10 @@ class CalendarRepositoryImpl implements CalendarRepository {
     DateTime month,
   ) async {
     try {
-      final allRecords = await _recordDataSource.getAllRecords();
-      final monthRecords = allRecords.where((record) {
-        return record.dateTime.year == month.year &&
-            record.dateTime.month == month.month;
-      }).toList();
+      final monthRecords = await _recordRepository.getRecordsByMonth(
+        month.year,
+        month.month,
+      );
 
       if (monthRecords.isEmpty) {
         return Right(CalendarStatistics.empty());
@@ -113,11 +112,10 @@ class CalendarRepositoryImpl implements CalendarRepository {
   Future<Either<Failure, Map<DateTime, List<RecordEntity>>>>
   getRecordDaysInMonth(DateTime month) async {
     try {
-      final allRecords = await _recordDataSource.getAllRecords();
-      final monthRecords = allRecords.where((record) {
-        return record.dateTime.year == month.year &&
-            record.dateTime.month == month.month;
-      }).toList();
+      final monthRecords = await _recordRepository.getRecordsByMonth(
+        month.year,
+        month.month,
+      );
 
       final recordDays = <DateTime, List<RecordEntity>>{};
       for (final record in monthRecords) {
