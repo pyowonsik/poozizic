@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../domain/entity/bowel_distribution_entity.dart';
+import 'package:flutter/material.dart';
+import 'package:poozizic/feature/analytics/domain/entity/bowel_distribution_entity.dart';
 
 /// 배변 상태 분포 차트 위젯
 class BowelDistributionChart extends StatelessWidget {
-  final BowelDistributionEntity distribution;
+  /// 배변 상태 분포 차트 위젯 생성자
+  /// [distribution] 배변 상태 분포 엔티티
+  const BowelDistributionChart({required this.distribution, super.key});
 
-  const BowelDistributionChart({
-    super.key,
-    required this.distribution,
-  });
+  /// 배변 상태 분포 차트 위젯
+  final BowelDistributionEntity distribution;
 
   @override
   Widget build(BuildContext context) {
@@ -110,52 +110,62 @@ class BowelDistributionChart extends StatelessWidget {
 
     // Type 1-2 (딱딱)
     if (distribution.type1_2Count > 0) {
-      sections.add(PieChartSectionData(
-        value: distribution.type1_2Count.toDouble(),
-        title: '',
-        color: const Color(0xFFFF9800),
-        radius: 35,
-      ));
+      sections.add(
+        PieChartSectionData(
+          value: distribution.type1_2Count.toDouble(),
+          title: '',
+          color: const Color(0xFFFF9800),
+          radius: 35,
+        ),
+      );
     }
 
     // Type 3-4 (정상)
     if (distribution.type3_4Count > 0) {
-      sections.add(PieChartSectionData(
-        value: distribution.type3_4Count.toDouble(),
-        title: '',
-        color: const Color(0xFF4CAF50),
-        radius: 35,
-      ));
+      sections.add(
+        PieChartSectionData(
+          value: distribution.type3_4Count.toDouble(),
+          title: '',
+          color: const Color(0xFF4CAF50),
+          radius: 35,
+        ),
+      );
     }
 
     // Type 5-6 (무른)
     if (distribution.type5_6Count > 0) {
-      sections.add(PieChartSectionData(
-        value: distribution.type5_6Count.toDouble(),
-        title: '',
-        color: const Color(0xFF9E9E9E),
-        radius: 35,
-      ));
+      sections.add(
+        PieChartSectionData(
+          value: distribution.type5_6Count.toDouble(),
+          title: '',
+          color: const Color(0xFF9E9E9E),
+          radius: 35,
+        ),
+      );
     }
 
     // Type 7 (설사)
     if (distribution.type7Count > 0) {
-      sections.add(PieChartSectionData(
-        value: distribution.type7Count.toDouble(),
-        title: '',
-        color: const Color(0xFFE0E0E0),
-        radius: 35,
-      ));
+      sections.add(
+        PieChartSectionData(
+          value: distribution.type7Count.toDouble(),
+          title: '',
+          color: const Color(0xFFE0E0E0),
+          radius: 35,
+        ),
+      );
     }
 
     // 최소 1개 섹션 보장
     if (sections.isEmpty) {
-      sections.add(PieChartSectionData(
-        value: 1,
-        title: '',
-        color: const Color(0xFFE0E0E0),
-        radius: 35,
-      ));
+      sections.add(
+        PieChartSectionData(
+          value: 1,
+          title: '',
+          color: const Color(0xFFE0E0E0),
+          radius: 35,
+        ),
+      );
     }
 
     return sections;

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../di/analytics_providers.dart';
-import '../provider/analytics_notifier.dart';
-import '../provider/analytics_state.dart';
-import '../widget/stat_cards_row.dart';
-import '../widget/bowel_distribution_chart.dart';
-import '../widget/weekly_frequency_chart.dart';
-import '../widget/insight_card.dart';
+import 'package:poozizic/feature/analytics/di/analytics_providers.dart';
+import 'package:poozizic/feature/analytics/presentation/provider/analytics_notifier.dart';
+import 'package:poozizic/feature/analytics/presentation/provider/analytics_state.dart';
+import 'package:poozizic/feature/analytics/presentation/widget/bowel_distribution_chart.dart';
+import 'package:poozizic/feature/analytics/presentation/widget/insight_card.dart';
+import 'package:poozizic/feature/analytics/presentation/widget/stat_cards_row.dart';
+import 'package:poozizic/feature/analytics/presentation/widget/weekly_frequency_chart.dart';
 
 /// 분석 페이지
 class AnalyticsPage extends ConsumerWidget {
+  /// 분석 페이지
+
   const AnalyticsPage({super.key});
 
   @override
@@ -34,9 +36,7 @@ class AnalyticsPage extends ConsumerWidget {
 
   Widget _buildBody(AnalyticsState state, AnalyticsNotifier notifier) {
     if (state is AnalyticsLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     if (state is AnalyticsError) {
@@ -72,8 +72,7 @@ class AnalyticsPage extends ConsumerWidget {
             children: [
               Text(
                 '최근 ${state.summary.period}일 데이터 기준',
-                style:
-                    const TextStyle(fontSize: 13, color: Color(0xFF999999)),
+                style: const TextStyle(fontSize: 13, color: Color(0xFF999999)),
               ),
               const SizedBox(height: 16),
 
@@ -93,10 +92,12 @@ class AnalyticsPage extends ConsumerWidget {
               const SizedBox(height: 24),
 
               // 인사이트 카드들
-              ...state.insights.map((insight) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: InsightCard(insight: insight),
-                  )),
+              ...state.insights.map(
+                (insight) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: InsightCard(insight: insight),
+                ),
+              ),
 
               const SizedBox(height: 20),
             ],

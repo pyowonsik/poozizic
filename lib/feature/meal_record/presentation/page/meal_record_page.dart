@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../di/meal_record_providers.dart';
-import '../provider/meal_record_form_state.dart';
-import '../widget/meal_type_selector.dart';
-import '../widget/food_input_section.dart';
-import '../widget/fiber_level_selector.dart';
-import '../../../home/di/home_providers.dart';
-import '../../../analytics/di/analytics_providers.dart';
+import 'package:poozizic/feature/analytics/di/analytics_providers.dart';
+import 'package:poozizic/feature/home/di/home_providers.dart';
+import 'package:poozizic/feature/meal_record/di/meal_record_providers.dart';
+import 'package:poozizic/feature/meal_record/presentation/provider/meal_record_form_state.dart';
+import 'package:poozizic/feature/meal_record/presentation/widget/fiber_level_selector.dart';
+import 'package:poozizic/feature/meal_record/presentation/widget/food_input_section.dart';
+import 'package:poozizic/feature/meal_record/presentation/widget/meal_type_selector.dart';
 
 /// 식사 기록 페이지
 class MealRecordPage extends ConsumerStatefulWidget {
+  /// 식사 기록 페이지 생성자
   const MealRecordPage({super.key});
 
   @override
@@ -23,8 +24,10 @@ class _MealRecordPageState extends ConsumerState<MealRecordPage> {
     final notifier = ref.read(mealRecordFormNotifierProvider.notifier);
 
     // 성공 시 화면 닫기
-    ref.listen<MealRecordFormState>(mealRecordFormNotifierProvider,
-        (previous, next) {
+    ref.listen<MealRecordFormState>(mealRecordFormNotifierProvider, (
+      previous,
+      next,
+    ) {
       if (next is MealRecordFormSuccess) {
         // Home, Analytics 화면 갱신
         refreshHome(ref);
@@ -51,11 +54,11 @@ class _MealRecordPageState extends ConsumerState<MealRecordPage> {
     });
 
     // 현재 상태값 추출
-    int selectedMealType = 0;
-    List<String> foods = [];
+    var selectedMealType = 0;
+    var foods = <String>[];
     int? selectedFiber;
-    bool canSubmit = false;
-    bool isSubmitting = false;
+    var canSubmit = false;
+    var isSubmitting = false;
 
     if (state is MealRecordFormInProgress) {
       selectedMealType = state.selectedMealType;
@@ -188,8 +191,9 @@ class _MealRecordPageState extends ConsumerState<MealRecordPage> {
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
                           ),
                         )
                       : const Row(

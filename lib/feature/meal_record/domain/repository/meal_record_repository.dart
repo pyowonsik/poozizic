@@ -1,4 +1,4 @@
-import '../entity/meal_record_entity.dart';
+import 'package:poozizic/feature/meal_record/domain/entity/meal_record_entity.dart';
 
 /// MealRecord Repository 인터페이스
 abstract class MealRecordRepository {

@@ -1,12 +1,13 @@
-import '../../domain/entity/exercise_record_entity.dart';
-import '../../domain/repository/exercise_record_repository.dart';
-import '../datasource/exercise_record_local_datasource.dart';
+import 'package:poozizic/feature/exercise_record/data/datasource/exercise_record_local_datasource.dart';
+import 'package:poozizic/feature/exercise_record/domain/entity/exercise_record_entity.dart';
+import 'package:poozizic/feature/exercise_record/domain/repository/exercise_record_repository.dart';
 
 /// ExerciseRecord Repository 구현체
 class ExerciseRecordRepositoryImpl implements ExerciseRecordRepository {
-  final ExerciseRecordLocalDataSource _dataSource;
-
+  /// ExerciseRecord Repository 구현체 생성자
   ExerciseRecordRepositoryImpl(this._dataSource);
+
+  final ExerciseRecordLocalDataSource _dataSource;
 
   @override
   Future<ExerciseRecordEntity> createRecord(ExerciseRecordEntity record) {

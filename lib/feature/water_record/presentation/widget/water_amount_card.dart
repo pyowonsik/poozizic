@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 /// 물방울 카드 위젯
 class WaterAmountCard extends StatelessWidget {
-  final double waterAmount;
+  /// 물방울 카드 위젯 생성자
+  /// [waterAmount] 수분량
+  const WaterAmountCard({required this.waterAmount, super.key});
 
-  const WaterAmountCard({
-    super.key,
-    required this.waterAmount,
-  });
+  /// 수분량
+  final double waterAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +34,7 @@ class WaterAmountCard extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          const Text(
-            'ml',
-            style: TextStyle(fontSize: 20, color: Colors.white),
-          ),
+          const Text('ml', style: TextStyle(fontSize: 20, color: Colors.white)),
         ],
       ),
     );

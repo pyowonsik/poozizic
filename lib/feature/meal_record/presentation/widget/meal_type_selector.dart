@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
-import '../provider/meal_record_form_notifier.dart';
+import 'package:poozizic/feature/meal_record/presentation/provider/meal_record_form_notifier.dart';
 
 /// 식사 타입 선택 위젯
 class MealTypeSelector extends StatelessWidget {
-  final int selectedMealType;
-  final void Function(int type) onMealTypeSelected;
-
+  /// 식사 타입 선택 위젯 생성자
+  /// [selectedMealType] 선택된 식사 타입
+  /// [onMealTypeSelected] 식사 타입 선택 콜백
+  ///
   const MealTypeSelector({
-    super.key,
     required this.selectedMealType,
     required this.onMealTypeSelected,
+    super.key,
   });
+
+  /// 선택된 식사 타입
+  final int selectedMealType;
+
+  /// 식사 타입 선택 콜백
+  final void Function(int type) onMealTypeSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +31,9 @@ class MealTypeSelector extends StatelessWidget {
             onTap: () => onMealTypeSelected(index),
             child: Container(
               margin: EdgeInsets.only(
-                right: index < MealRecordFormNotifier.mealTypes.length - 1 ? 12 : 0,
+                right: index < MealRecordFormNotifier.mealTypes.length - 1
+                    ? 12
+                    : 0,
               ),
               padding: const EdgeInsets.symmetric(vertical: 16),
               decoration: BoxDecoration(
@@ -41,16 +50,15 @@ class MealTypeSelector extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Text(
-                    meal.emoji,
-                    style: const TextStyle(fontSize: 24),
-                  ),
+                  Text(meal.emoji, style: const TextStyle(fontSize: 24)),
                   const SizedBox(height: 4),
                   Text(
                     meal.label,
                     style: TextStyle(
                       fontSize: 13,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: isSelected
                           ? const Color(0xFF5E35B1)
                           : const Color(0xFF666666),

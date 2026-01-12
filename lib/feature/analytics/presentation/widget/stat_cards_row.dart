@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../domain/entity/analytics_summary_entity.dart';
+import 'package:poozizic/feature/analytics/domain/entity/analytics_summary_entity.dart';
 
 /// 통계 카드 행 위젯
 class StatCardsRow extends StatelessWidget {
-  final AnalyticsSummaryEntity summary;
+  /// 통계 카드 행 위젯 생성자
+  /// [summary] 분석 요약 엔티티
+  const StatCardsRow({required this.summary, super.key});
 
-  const StatCardsRow({
-    super.key,
-    required this.summary,
-  });
+  /// 분석 요약 엔티티
+  final AnalyticsSummaryEntity summary;
 
   @override
   Widget build(BuildContext context) {

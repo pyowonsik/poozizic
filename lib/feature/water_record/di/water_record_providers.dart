@@ -1,18 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/datasource/water_record_local_datasource.dart';
-import '../data/repository/water_record_repository_impl.dart';
-import '../domain/entity/water_record_entity.dart';
-import '../domain/repository/water_record_repository.dart';
-import '../domain/usecase/create_water_record_usecase.dart';
-import '../domain/usecase/get_water_records_by_date_usecase.dart';
-import '../presentation/provider/water_record_form_notifier.dart';
-import '../presentation/provider/water_record_form_state.dart';
+import 'package:poozizic/feature/water_record/data/datasource/water_record_local_datasource.dart';
+import 'package:poozizic/feature/water_record/data/repository/water_record_repository_impl.dart';
+import 'package:poozizic/feature/water_record/domain/entity/water_record_entity.dart';
+import 'package:poozizic/feature/water_record/domain/repository/water_record_repository.dart';
+import 'package:poozizic/feature/water_record/domain/usecase/create_water_record_usecase.dart';
+import 'package:poozizic/feature/water_record/domain/usecase/get_water_records_by_date_usecase.dart';
+import 'package:poozizic/feature/water_record/presentation/provider/water_record_form_notifier.dart';
+import 'package:poozizic/feature/water_record/presentation/provider/water_record_form_state.dart';
 
 /// DataSource Provider (Singleton으로 데이터 유지)
-final waterRecordLocalDataSourceProvider =
-    Provider<WaterRecordLocalDataSource>((ref) {
-  return WaterRecordLocalDataSource();
-});
+final waterRecordLocalDataSourceProvider = Provider<WaterRecordLocalDataSource>(
+  (ref) {
+    return WaterRecordLocalDataSource();
+  },
+);
 
 /// Repository Provider
 final waterRecordRepositoryProvider = Provider<WaterRecordRepository>((ref) {
@@ -21,8 +22,9 @@ final waterRecordRepositoryProvider = Provider<WaterRecordRepository>((ref) {
 });
 
 /// CreateWaterRecordUseCase Provider
-final createWaterRecordUseCaseProvider =
-    Provider<CreateWaterRecordUseCase>((ref) {
+final createWaterRecordUseCaseProvider = Provider<CreateWaterRecordUseCase>((
+  ref,
+) {
   final repository = ref.watch(waterRecordRepositoryProvider);
   return CreateWaterRecordUseCase(repository);
 });
@@ -30,20 +32,26 @@ final createWaterRecordUseCaseProvider =
 /// GetWaterRecordsByDateUseCase Provider
 final getWaterRecordsByDateUseCaseProvider =
     Provider<GetWaterRecordsByDateUseCase>((ref) {
-  final repository = ref.watch(waterRecordRepositoryProvider);
-  return GetWaterRecordsByDateUseCase(repository);
-});
+      final repository = ref.watch(waterRecordRepositoryProvider);
+      return GetWaterRecordsByDateUseCase(repository);
+    });
 
 /// WaterRecordFormNotifier Provider (autoDispose for form screens)
-final waterRecordFormNotifierProvider = StateNotifierProvider.autoDispose<
-    WaterRecordFormNotifier, WaterRecordFormState>((ref) {
-  final createWaterRecordUseCase = ref.watch(createWaterRecordUseCaseProvider);
-  return WaterRecordFormNotifier(createWaterRecordUseCase);
-});
+final waterRecordFormNotifierProvider =
+    StateNotifierProvider.autoDispose<
+      WaterRecordFormNotifier,
+      WaterRecordFormState
+    >((ref) {
+      final createWaterRecordUseCase = ref.watch(
+        createWaterRecordUseCaseProvider,
+      );
+      return WaterRecordFormNotifier(createWaterRecordUseCase);
+    });
 
 /// 오늘 수분 기록 Provider
-final todayWaterRecordsProvider =
-    FutureProvider<List<WaterRecordEntity>>((ref) async {
+final todayWaterRecordsProvider = FutureProvider<List<WaterRecordEntity>>((
+  ref,
+) async {
   final useCase = ref.watch(getWaterRecordsByDateUseCaseProvider);
   final result = await useCase(DateTime.now());
   return result.fold(
@@ -64,6 +72,7 @@ final waterRecordsRefreshProvider = StateProvider<int>((ref) => 0);
 /// 수분 기록 갱신 트리거
 void refreshWaterRecords(WidgetRef ref) {
   ref.read(waterRecordsRefreshProvider.notifier).state++;
-  ref.invalidate(todayWaterRecordsProvider);
-  ref.invalidate(todayWaterTotalProvider);
+  ref
+    ..invalidate(todayWaterRecordsProvider)
+    ..invalidate(todayWaterTotalProvider);
 }

@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
-import '../../domain/entity/health_score_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/health_score_entity.dart';
 
 /// 건강 점수 카드 위젯
 class HealthScoreCard extends StatelessWidget {
-  final HealthScoreEntity healthScore;
-  final bool isExpanded;
-  final VoidCallback onTap;
-
+  /// 건강 점수 카드 위젯 생성자
+  /// 건강 점수 카드 위젯 생성자
+  /// [healthScore] 건강 점수 엔티티
+  /// [isExpanded] 건강 점수 카드 위젯 확장 여부
+  /// [onTap] 건강 점수 카드 위젯 확장 탭 콜백
   const HealthScoreCard({
-    super.key,
     required this.healthScore,
     required this.isExpanded,
     required this.onTap,
+    super.key,
   });
+
+  /// 건강 점수 엔티티
+  final HealthScoreEntity healthScore;
+
+  /// 건강 점수 카드 위젯 확장 여부
+  final bool isExpanded;
+
+  /// 건강 점수 카드 위젯 확장 탭 콜백
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +40,7 @@ class HealthScoreCard extends StatelessWidget {
             ),
             child: const Row(
               children: [
-                Icon(
-                  Icons.check_circle,
-                  color: Color(0xFF27AE60),
-                  size: 24,
-                ),
+                Icon(Icons.check_circle, color: Color(0xFF27AE60), size: 24),
                 SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -162,11 +168,7 @@ class HealthScoreCard extends StatelessWidget {
         children: [
           const Row(
             children: [
-              Icon(
-                Icons.wb_sunny_outlined,
-                size: 20,
-                color: Color(0xFF9B59B6),
-              ),
+              Icon(Icons.wb_sunny_outlined, size: 20, color: Color(0xFF9B59B6)),
               SizedBox(width: 8),
               Text(
                 '피드백',

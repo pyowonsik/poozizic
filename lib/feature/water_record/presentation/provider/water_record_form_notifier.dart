@@ -1,28 +1,40 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/usecase/create_water_record_usecase.dart';
-import 'water_record_form_state.dart';
+import 'package:poozizic/feature/water_record/domain/usecase/create_water_record_usecase.dart';
+import 'package:poozizic/feature/water_record/presentation/provider/water_record_form_state.dart';
 
 /// 프리셋 정보
 class WaterPreset {
-  final String emoji;
-  final String label;
-  final int amount;
-  final String type;
-
+  /// 프리셋 정보 생성자
+  /// [emoji] 이모지
+  /// [label] 라벨
+  /// [amount] 양
+  /// [type] 타입
   const WaterPreset({
     required this.emoji,
     required this.label,
     required this.amount,
     required this.type,
   });
+
+  /// 이모지
+  final String emoji;
+
+  /// 라벨
+  final String label;
+
+  /// 양
+  final int amount;
+
+  /// 타입
+  final String type;
 }
 
 /// WaterRecord 폼 Notifier
 class WaterRecordFormNotifier extends StateNotifier<WaterRecordFormState> {
-  final CreateWaterRecordUseCase _createWaterRecordUseCase;
-
+  /// WaterRecord 폼 Notifier 생성자
   WaterRecordFormNotifier(this._createWaterRecordUseCase)
-      : super(const WaterRecordFormInProgress());
+    : super(const WaterRecordFormInProgress());
+  final CreateWaterRecordUseCase _createWaterRecordUseCase;
 
   /// 프리셋 목록
   static const List<WaterPreset> presets = [
@@ -39,10 +51,7 @@ class WaterRecordFormNotifier extends StateNotifier<WaterRecordFormState> {
   void setAmount(double amount) {
     final currentState = state;
     if (currentState is WaterRecordFormInProgress) {
-      state = currentState.copyWith(
-        waterAmount: amount,
-        clearPreset: true,
-      );
+      state = currentState.copyWith(waterAmount: amount, clearPreset: true);
     }
   }
 
@@ -80,10 +89,12 @@ class WaterRecordFormNotifier extends StateNotifier<WaterRecordFormState> {
       presetType = presets[currentState.selectedPreset!].type;
     }
 
-    final result = await _createWaterRecordUseCase(CreateWaterRecordParams(
-      amountMl: currentState.waterAmount.toInt(),
-      presetType: presetType,
-    ));
+    final result = await _createWaterRecordUseCase(
+      CreateWaterRecordParams(
+        amountMl: currentState.waterAmount.toInt(),
+        presetType: presetType,
+      ),
+    );
 
     result.fold(
       (failure) {

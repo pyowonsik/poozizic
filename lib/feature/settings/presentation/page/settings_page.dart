@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../di/settings_providers.dart';
-import '../provider/settings_state.dart';
-import '../widget/profile_section.dart';
-import '../widget/goal_section.dart';
-import '../widget/notification_section.dart';
-import '../widget/privacy_section.dart';
+import 'package:poozizic/feature/settings/di/settings_providers.dart';
+import 'package:poozizic/feature/settings/presentation/provider/settings_notifier.dart';
+import 'package:poozizic/feature/settings/presentation/provider/settings_state.dart';
+import 'package:poozizic/feature/settings/presentation/widget/goal_section.dart';
+import 'package:poozizic/feature/settings/presentation/widget/notification_section.dart';
+import 'package:poozizic/feature/settings/presentation/widget/privacy_section.dart';
+import 'package:poozizic/feature/settings/presentation/widget/profile_section.dart';
 
 /// 설정 페이지 (Clean Architecture)
 class SettingsPage extends ConsumerStatefulWidget {
+  /// 설정 페이지 생성자
+  /// [key] 키
   const SettingsPage({super.key});
 
+  /// 설정 페이지 생성자
   @override
   ConsumerState<SettingsPage> createState() => _SettingsPageState();
 }
@@ -26,10 +30,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       appBar: AppBar(
         title: const Text(
           '설정',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -39,189 +40,168 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         SettingsInitial() => const Center(child: CircularProgressIndicator()),
         SettingsLoading() => const Center(child: CircularProgressIndicator()),
         SettingsError(:final message) => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                const SizedBox(height: 16),
-                Text(message),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => notifier.loadSettings(),
-                  child: const Text('다시 시도'),
-                ),
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              const SizedBox(height: 16),
+              Text(message),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: notifier.loadSettings,
+                child: const Text('다시 시도'),
+              ),
+            ],
           ),
+        ),
         SettingsLoaded(:final settings) => SingleChildScrollView(
-            child: Column(
-              children: [
-                // 사용자 프로필
-                const ProfileSection(),
+          child: Column(
+            children: [
+              // 사용자 프로필
+              const ProfileSection(),
 
-                const SizedBox(height: 12),
+              const SizedBox(height: 12),
 
-                // 프로필 메뉴 섹션
-                _buildSection(
-                  icon: Icons.person_outline,
-                  iconColor: const Color(0xFFFF6B35),
-                  title: '프로필',
-                  children: [
-                    _buildListTile(
-                      title: '프로필 편집',
-                      onTap: () {},
+              // 프로필 메뉴 섹션
+              _buildSection(
+                icon: Icons.person_outline,
+                iconColor: const Color(0xFFFF6B35),
+                title: '프로필',
+                children: [
+                  _buildListTile(title: '프로필 편집', onTap: () {}),
+                  _buildListTile(title: '건강 정보', onTap: () {}),
+                ],
+              ),
+
+              const SizedBox(height: 12),
+
+              // 목표 섹션
+              GoalSection(
+                settings: settings,
+                onWaterGoalTap: () => _showWaterGoalBottomSheet(notifier),
+                onBowelGoalTap: () => _showBowelGoalBottomSheet(notifier),
+              ),
+
+              const SizedBox(height: 12),
+
+              // 알림 섹션
+              NotificationSection(
+                settings: settings,
+                onBowelReminderChanged: notifier.updateBowelReminder,
+                onWaterReminderChanged: notifier.updateWaterReminder,
+                onWeeklyReportChanged: notifier.updateWeeklyReport,
+              ),
+
+              const SizedBox(height: 12),
+
+              // 프라이버시 섹션
+              PrivacySection(
+                settings: settings,
+                onAppLockChanged: notifier.updateAppLock,
+                onHideNotificationContentChanged:
+                    notifier.updateHideNotificationContent,
+                onCloudBackupChanged: notifier.updateCloudBackup,
+              ),
+
+              const SizedBox(height: 12),
+
+              // 데이터 섹션
+              _buildSection(
+                icon: Icons.download_outlined,
+                iconColor: const Color(0xFFFF6B35),
+                title: '데이터',
+                children: [
+                  _buildListTile(
+                    title: '데이터 내보내기',
+                    onTap: () => _showConfirmDialog(
+                      '데이터 내보내기',
+                      '모든 기록을 CSV 파일로 내보내시겠습니까?',
                     ),
-                    _buildListTile(
-                      title: '건강 정보',
-                      onTap: () {},
+                  ),
+                  _buildListTile(
+                    title: '데이터 가져오기',
+                    onTap: () => _showConfirmDialog(
+                      '데이터 가져오기',
+                      'CSV 파일에서 데이터를 가져오시겠습니까?',
                     ),
-                  ],
-                ),
+                  ),
+                  _buildListTile(
+                    title: '모든 데이터 삭제',
+                    titleColor: const Color(0xFFE53935),
+                    onTap: () => _showConfirmDialog(
+                      '모든 데이터 삭제',
+                      '모든 기록이 영구적으로 삭제됩니다. 계속하시겠습니까?',
+                      isDestructive: true,
+                    ),
+                  ),
+                ],
+              ),
 
-                const SizedBox(height: 12),
+              const SizedBox(height: 12),
 
-                // 목표 섹션
-                GoalSection(
-                  settings: settings,
-                  onWaterGoalTap: () => _showWaterGoalBottomSheet(notifier),
-                  onBowelGoalTap: () => _showBowelGoalBottomSheet(notifier),
-                ),
+              // 정보 섹션
+              _buildSection(
+                icon: Icons.info_outline,
+                iconColor: const Color(0xFFFF6B35),
+                title: '정보',
+                children: [
+                  _buildListTile(
+                    title: '앱 버전',
+                    trailing: const Text(
+                      '1.0.0',
+                      style: TextStyle(fontSize: 14, color: Color(0xFF999999)),
+                    ),
+                  ),
+                  _buildListTile(title: '이용 약관', onTap: () {}),
+                  _buildListTile(title: '개인정보 처리방침', onTap: () {}),
+                  _buildListTile(title: '오픈소스 라이선스', onTap: () {}),
+                ],
+              ),
 
-                const SizedBox(height: 12),
+              const SizedBox(height: 32),
 
-                // 알림 섹션
-                NotificationSection(
-                  settings: settings,
-                  onBowelReminderChanged: notifier.updateBowelReminder,
-                  onWaterReminderChanged: notifier.updateWaterReminder,
-                  onWeeklyReportChanged: notifier.updateWeeklyReport,
-                ),
-
-                const SizedBox(height: 12),
-
-                // 프라이버시 섹션
-                PrivacySection(
-                  settings: settings,
-                  onAppLockChanged: notifier.updateAppLock,
-                  onHideNotificationContentChanged: notifier.updateHideNotificationContent,
-                  onCloudBackupChanged: notifier.updateCloudBackup,
-                ),
-
-                const SizedBox(height: 12),
-
-                // 데이터 섹션
-                _buildSection(
-                  icon: Icons.download_outlined,
-                  iconColor: const Color(0xFFFF6B35),
-                  title: '데이터',
-                  children: [
-                    _buildListTile(
-                      title: '데이터 내보내기',
-                      onTap: () => _showConfirmDialog(
-                        '데이터 내보내기',
-                        '모든 기록을 CSV 파일로 내보내시겠습니까?',
+              // 로그아웃 버튼
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () => _showConfirmDialog('로그아웃', '로그아웃 하시겠습니까?'),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      side: const BorderSide(
+                        color: Color(0xFFE0E0E0),
+                        width: 1.5,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    _buildListTile(
-                      title: '데이터 가져오기',
-                      onTap: () => _showConfirmDialog(
-                        '데이터 가져오기',
-                        'CSV 파일에서 데이터를 가져오시겠습니까?',
-                      ),
-                    ),
-                    _buildListTile(
-                      title: '모든 데이터 삭제',
-                      titleColor: const Color(0xFFE53935),
-                      onTap: () => _showConfirmDialog(
-                        '모든 데이터 삭제',
-                        '모든 기록이 영구적으로 삭제됩니다. 계속하시겠습니까?',
-                        isDestructive: true,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 12),
-
-                // 정보 섹션
-                _buildSection(
-                  icon: Icons.info_outline,
-                  iconColor: const Color(0xFFFF6B35),
-                  title: '정보',
-                  children: [
-                    _buildListTile(
-                      title: '앱 버전',
-                      trailing: const Text(
-                        '1.0.0',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF999999),
-                        ),
-                      ),
-                      onTap: null,
-                    ),
-                    _buildListTile(
-                      title: '이용 약관',
-                      onTap: () {},
-                    ),
-                    _buildListTile(
-                      title: '개인정보 처리방침',
-                      onTap: () {},
-                    ),
-                    _buildListTile(
-                      title: '오픈소스 라이선스',
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 32),
-
-                // 로그아웃 버튼
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () => _showConfirmDialog(
-                        '로그아웃',
-                        '로그아웃 하시겠습니까?',
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        side: const BorderSide(
-                          color: Color(0xFFE0E0E0),
-                          width: 1.5,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Text(
-                        '로그아웃',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF666666),
-                        ),
+                    child: const Text(
+                      '로그아웃',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF666666),
                       ),
                     ),
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 32),
-              ],
-            ),
+              const SizedBox(height: 32),
+            ],
           ),
+        ),
       },
     );
   }
 
-  void _showWaterGoalBottomSheet(dynamic notifier) {
+  void _showWaterGoalBottomSheet(SettingsNotifier notifier) {
     final currentState = ref.read(settingsNotifierProvider);
     if (currentState is! SettingsLoaded) return;
 
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -315,11 +295,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     );
   }
 
-  void _showBowelGoalBottomSheet(dynamic notifier) {
+  void _showBowelGoalBottomSheet(SettingsNotifier notifier) {
     final currentState = ref.read(settingsNotifierProvider);
     if (currentState is! SettingsLoaded) return;
 
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -356,10 +336,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               const SizedBox(height: 8),
               const Text(
                 '하루 목표 배변 횟수를 선택하세요',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF999999),
-                ),
+                style: TextStyle(fontSize: 14, color: Color(0xFF999999)),
               ),
               const SizedBox(height: 24),
               ...List.generate(5, (index) {
@@ -481,7 +458,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     required String title,
     required List<Widget> children,
   }) {
-    return Container(
+    return ColoredBox(
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -548,35 +525,22 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     String message, {
     bool isDestructive = false,
   }) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         content: Text(
           message,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Color(0xFF666666),
-          ),
+          style: const TextStyle(fontSize: 14, color: Color(0xFF666666)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
-              '취소',
-              style: TextStyle(
-                color: Color(0xFF999999),
-              ),
-            ),
+            child: const Text('취소', style: TextStyle(color: Color(0xFF999999))),
           ),
           TextButton(
             onPressed: () {

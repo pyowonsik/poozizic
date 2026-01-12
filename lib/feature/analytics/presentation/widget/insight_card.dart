@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../domain/entity/insight_entity.dart';
+import 'package:poozizic/feature/analytics/domain/entity/insight_entity.dart';
 
 /// 인사이트 카드 위젯
 class InsightCard extends StatelessWidget {
-  final InsightEntity insight;
+  /// 인사이트 카드 위젯 생성자
+  /// [insight] 인사이트 엔티티
+  const InsightCard({required this.insight, super.key});
 
-  const InsightCard({
-    super.key,
-    required this.insight,
-  });
+  /// 인사이트 엔티티
+  final InsightEntity insight;
 
   @override
   Widget build(BuildContext context) {

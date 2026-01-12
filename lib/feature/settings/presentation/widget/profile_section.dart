@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// 프로필 섹션 위젯
 class ProfileSection extends StatelessWidget {
+  /// 프로필 섹션 위젯 생성자
+  /// [key] 키
   const ProfileSection({super.key});
 
   @override
@@ -44,10 +47,7 @@ class ProfileSection extends StatelessWidget {
                 SizedBox(height: 4),
                 Text(
                   'user@example.com',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF999999),
-                  ),
+                  style: TextStyle(fontSize: 14, color: Color(0xFF999999)),
                 ),
               ],
             ),

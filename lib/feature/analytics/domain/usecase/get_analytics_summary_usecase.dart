@@ -1,16 +1,18 @@
 import 'package:dartz/dartz.dart';
-import '../../../../shared/domain/failure/failure.dart';
-import '../../../../shared/domain/usecase/usecase.dart';
-import '../entity/analytics_summary_entity.dart';
-import '../failure/analytics_failure.dart';
-import '../repository/analytics_repository.dart';
+import 'package:poozizic/feature/analytics/domain/entity/analytics_summary_entity.dart';
+import 'package:poozizic/feature/analytics/domain/failure/analytics_failure.dart';
+import 'package:poozizic/feature/analytics/domain/repository/analytics_repository.dart';
+import 'package:poozizic/shared/domain/failure/failure.dart';
+import 'package:poozizic/shared/domain/usecase/usecase.dart';
 
 /// 분석 요약 조회 UseCase
 class GetAnalyticsSummaryUseCase
     extends UseCase<AnalyticsSummaryEntity, int, AnalyticsRepository> {
-  final AnalyticsRepository _repository;
-
+  /// 분석 요약 조회 UseCase
   GetAnalyticsSummaryUseCase(this._repository);
+
+  /// 분석 요약 조회 리포지토리
+  final AnalyticsRepository _repository;
 
   @override
   AnalyticsRepository get repo => _repository;
@@ -21,10 +23,12 @@ class GetAnalyticsSummaryUseCase
       final summary = await _repository.getAnalyticsSummary(days);
       return Right(summary);
     } catch (e) {
-      return Left(GetAnalyticsSummaryFailure(
-        '분석 요약을 불러오는데 실패했습니다',
-        exception: e is Exception ? e : null,
-      ));
+      return Left(
+        GetAnalyticsSummaryFailure(
+          '분석 요약을 불러오는데 실패했습니다',
+          exception: e is Exception ? e : null,
+        ),
+      );
     }
   }
 }

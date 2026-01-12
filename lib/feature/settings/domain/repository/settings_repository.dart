@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import '../../../../shared/domain/failure/failure.dart';
-import '../entity/settings_entity.dart';
+import 'package:poozizic/feature/settings/domain/entity/settings_entity.dart';
+import 'package:poozizic/shared/domain/failure/failure.dart';
 
 /// Settings Repository Interface
 abstract class SettingsRepository {
@@ -8,7 +8,9 @@ abstract class SettingsRepository {
   Future<Either<Failure, SettingsEntity>> getSettings();
 
   /// 설정 업데이트
-  Future<Either<Failure, SettingsEntity>> updateSettings(SettingsEntity settings);
+  Future<Either<Failure, SettingsEntity>> updateSettings(
+    SettingsEntity settings,
+  );
 
   /// 설정 초기화
   Future<Either<Failure, SettingsEntity>> resetSettings();

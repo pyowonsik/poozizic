@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
-import '../provider/meal_record_form_notifier.dart';
+import 'package:poozizic/feature/meal_record/presentation/provider/meal_record_form_notifier.dart';
 
 /// 식이섬유 레벨 선택 위젯
 class FiberLevelSelector extends StatelessWidget {
-  final int? selectedFiber;
-  final void Function(int level) onFiberSelected;
-
+  /// 식이섬유 레벨 선택 위젯 생성자
+  /// [selectedFiber] 선택된 식이섬유 레벨
+  /// [onFiberSelected] 식이섬유 레벨 선택 콜백
+  ///
   const FiberLevelSelector({
-    super.key,
     required this.selectedFiber,
     required this.onFiberSelected,
+    super.key,
   });
+
+  /// 선택된 식이섬유 레벨
+  final int? selectedFiber;
+
+  /// 식이섬유 레벨 선택 콜백
+  final void Function(int level) onFiberSelected;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: List.generate(MealRecordFormNotifier.fiberLevels.length, (index) {
+      children: List.generate(MealRecordFormNotifier.fiberLevels.length, (
+        index,
+      ) {
         final fiber = MealRecordFormNotifier.fiberLevels[index];
         final isSelected = selectedFiber == index;
 
@@ -24,7 +33,9 @@ class FiberLevelSelector extends StatelessWidget {
             onTap: () => onFiberSelected(index),
             child: Container(
               margin: EdgeInsets.only(
-                right: index < MealRecordFormNotifier.fiberLevels.length - 1 ? 12 : 0,
+                right: index < MealRecordFormNotifier.fiberLevels.length - 1
+                    ? 12
+                    : 0,
               ),
               padding: const EdgeInsets.symmetric(vertical: 20),
               decoration: BoxDecoration(
@@ -41,16 +52,15 @@ class FiberLevelSelector extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Text(
-                    fiber.emoji,
-                    style: const TextStyle(fontSize: 32),
-                  ),
+                  Text(fiber.emoji, style: const TextStyle(fontSize: 32)),
                   const SizedBox(height: 8),
                   Text(
                     fiber.label,
                     style: TextStyle(
                       fontSize: 14,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: isSelected
                           ? const Color(0xFF5E35B1)
                           : const Color(0xFF666666),

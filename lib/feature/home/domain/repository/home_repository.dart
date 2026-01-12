@@ -1,6 +1,6 @@
-import '../entity/daily_summary_entity.dart';
-import '../entity/health_score_entity.dart';
-import '../entity/recent_record_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/daily_summary_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/health_score_entity.dart';
+import 'package:poozizic/feature/home/domain/entity/recent_record_entity.dart';
 
 /// Home Repository 인터페이스
 abstract class HomeRepository {

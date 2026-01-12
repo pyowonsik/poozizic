@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 
+/// 기분 스텝
 class FeelingStep extends StatelessWidget {
+  /// 기분 스텝 생성자
+  /// [selectedFeeling] 선택된 기분
+  /// [onFeelingSelected] 기분 선택 콜백
+  /// [onNext] 다음 단계 콜백
   const FeelingStep({
-    super.key,
     required this.selectedFeeling,
     required this.onFeelingSelected,
     required this.onNext,
+    super.key,
   });
 
+  /// 선택된 기분
   final int? selectedFeeling;
+
+  /// 기분 선택 콜백
   final ValueChanged<int> onFeelingSelected;
+
+  /// 다음 단계 콜백
   final VoidCallback onNext;
 
+  /// 기분 목록
   static const List<Map<String, String>> feelings = [
     {'emoji': '😊', 'label': '시원함'},
     {'emoji': '😐', 'label': '보통'},
@@ -37,10 +48,7 @@ class FeelingStep extends StatelessWidget {
           const SizedBox(height: 8),
           const Text(
             '솔직하게 선택해주세요',
-            style: TextStyle(
-              fontSize: 14,
-              color: Color(0xFF999999),
-            ),
+            style: TextStyle(fontSize: 14, color: Color(0xFF999999)),
           ),
           const SizedBox(height: 32),
           GridView.count(
@@ -49,7 +57,7 @@ class FeelingStep extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             mainAxisSpacing: 16,
             crossAxisSpacing: 16,
-            childAspectRatio: 1.2,
+            childAspectRatio: 1.15,
             children: List.generate(feelings.length, (index) {
               final feeling = feelings[index];
               final isSelected = selectedFeeling == index;
@@ -57,7 +65,7 @@ class FeelingStep extends StatelessWidget {
               return GestureDetector(
                 onTap: () => onFeelingSelected(index),
                 child: Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? const Color(0xFF5E35B1).withValues(alpha: 0.1)
@@ -77,7 +85,7 @@ class FeelingStep extends StatelessWidget {
                         feeling['emoji']!,
                         style: const TextStyle(fontSize: 48),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
                       Text(
                         feeling['label']!,
                         style: const TextStyle(

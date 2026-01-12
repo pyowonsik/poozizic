@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../domain/entity/calendar_statistics.dart';
+import 'package:poozizic/feature/calendar/domain/entity/calendar_statistics.dart';
 
+/// 통계 카드 위젯
 class StatisticsCard extends StatelessWidget {
-  const StatisticsCard({
-    super.key,
-    required this.statistics,
-  });
+  /// 통계 카드 위젯 생성자
+  /// [statistics] 통계 엔티티
+  const StatisticsCard({required this.statistics, super.key});
 
+  /// 통계 엔티티
   final CalendarStatistics statistics;
 
   @override
@@ -33,21 +34,13 @@ class StatisticsCard extends StatelessWidget {
             '이번 달',
             Colors.black,
           ),
-          Container(
-            width: 1,
-            height: 40,
-            color: Colors.grey[200],
-          ),
+          Container(width: 1, height: 40, color: Colors.grey[200]),
           _buildStatItem(
             '${statistics.healthyPercentage.toStringAsFixed(0)}%',
             '정상 비율',
             const Color(0xFF27AE60),
           ),
-          Container(
-            width: 1,
-            height: 40,
-            color: Colors.grey[200],
-          ),
+          Container(width: 1, height: 40, color: Colors.grey[200]),
           _buildStatItem(
             '${statistics.averageIntervalDays.toStringAsFixed(1)}일',
             '평균 간격',
@@ -72,10 +65,7 @@ class StatisticsCard extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 12,
-            color: Color(0xFF666666),
-          ),
+          style: const TextStyle(fontSize: 12, color: Color(0xFF666666)),
         ),
       ],
     );

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../di/water_record_providers.dart';
-import '../provider/water_record_form_notifier.dart';
-import '../provider/water_record_form_state.dart';
-import '../widget/water_amount_card.dart';
-import '../widget/preset_grid.dart';
-import '../../../home/di/home_providers.dart';
-import '../../../analytics/di/analytics_providers.dart';
+import 'package:poozizic/feature/analytics/di/analytics_providers.dart';
+import 'package:poozizic/feature/home/di/home_providers.dart';
+import 'package:poozizic/feature/water_record/di/water_record_providers.dart';
+import 'package:poozizic/feature/water_record/presentation/provider/water_record_form_notifier.dart';
+import 'package:poozizic/feature/water_record/presentation/provider/water_record_form_state.dart';
+import 'package:poozizic/feature/water_record/presentation/widget/preset_grid.dart';
+import 'package:poozizic/feature/water_record/presentation/widget/water_amount_card.dart';
 
 /// 수분 기록 페이지
 class WaterRecordPage extends ConsumerStatefulWidget {
+  /// 수분 기록 페이지 생성자
+  /// [key] 키
   const WaterRecordPage({super.key});
 
   @override
@@ -23,8 +25,10 @@ class _WaterRecordPageState extends ConsumerState<WaterRecordPage> {
     final notifier = ref.read(waterRecordFormNotifierProvider.notifier);
 
     // 성공 시 화면 닫기
-    ref.listen<WaterRecordFormState>(waterRecordFormNotifierProvider,
-        (previous, next) {
+    ref.listen<WaterRecordFormState>(waterRecordFormNotifierProvider, (
+      previous,
+      next,
+    ) {
       if (next is WaterRecordFormSuccess) {
         // Home, Analytics 화면 갱신
         refreshHome(ref);
@@ -53,7 +57,7 @@ class _WaterRecordPageState extends ConsumerState<WaterRecordPage> {
     // 현재 수분량과 선택된 프리셋 추출
     double waterAmount = 250;
     int? selectedPreset = 1;
-    bool isSubmitting = false;
+    var isSubmitting = false;
 
     if (state is WaterRecordFormInProgress) {
       waterAmount = state.waterAmount;
@@ -193,21 +197,22 @@ class _WaterRecordPageState extends ConsumerState<WaterRecordPage> {
 
   Widget _buildQuickAmountButtons(WaterRecordFormNotifier notifier) {
     return Row(
-      children: List.generate(WaterRecordFormNotifier.quickAmounts.length, (index) {
+      children: List.generate(WaterRecordFormNotifier.quickAmounts.length, (
+        index,
+      ) {
         final amount = WaterRecordFormNotifier.quickAmounts[index];
         return Expanded(
           child: Container(
             margin: EdgeInsets.only(
-              right: index < WaterRecordFormNotifier.quickAmounts.length - 1 ? 8 : 0,
+              right: index < WaterRecordFormNotifier.quickAmounts.length - 1
+                  ? 8
+                  : 0,
             ),
             child: OutlinedButton(
               onPressed: () => notifier.selectQuickAmount(amount),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                side: const BorderSide(
-                  color: Color(0xFFE0E0E0),
-                  width: 1.5,
-                ),
+                side: const BorderSide(color: Color(0xFFE0E0E0), width: 1.5),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

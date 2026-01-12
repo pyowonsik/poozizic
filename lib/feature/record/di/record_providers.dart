@@ -1,15 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/datasource/record_local_datasource.dart';
-import '../data/repository/record_repository_impl.dart';
-import '../domain/entity/record_entity.dart';
-import '../domain/repository/record_repository.dart';
-import '../domain/usecase/create_record_usecase.dart';
-import '../domain/usecase/get_records_by_date_usecase.dart';
-import '../domain/usecase/get_records_usecase.dart';
-import '../../../shared/domain/usecase/usecase.dart';
-import '../presentation/provider/record_form_notifier.dart';
-import '../presentation/provider/record_form_state.dart';
-import '../../calendar/di/calendar_providers.dart';
+import 'package:poozizic/feature/calendar/di/calendar_providers.dart';
+import 'package:poozizic/feature/record/data/datasource/record_local_datasource.dart';
+import 'package:poozizic/feature/record/data/repository/record_repository_impl.dart';
+import 'package:poozizic/feature/record/domain/entity/record_entity.dart';
+import 'package:poozizic/feature/record/domain/repository/record_repository.dart';
+import 'package:poozizic/feature/record/domain/usecase/create_record_usecase.dart';
+import 'package:poozizic/feature/record/domain/usecase/get_records_by_date_usecase.dart';
+import 'package:poozizic/feature/record/domain/usecase/get_records_usecase.dart';
+import 'package:poozizic/feature/record/presentation/provider/record_form_notifier.dart';
+import 'package:poozizic/feature/record/presentation/provider/record_form_state.dart';
+import 'package:poozizic/shared/domain/usecase/usecase.dart';
 
 /// DataSource Provider (Singleton으로 데이터 유지)
 final recordLocalDataSourceProvider = Provider<RecordLocalDataSource>((ref) {
@@ -35,19 +35,21 @@ final getRecordsUseCaseProvider = Provider<GetRecordsUseCase>((ref) {
 });
 
 /// GetRecordsByDateUseCase Provider
-final getRecordsByDateUseCaseProvider =
-    Provider<GetRecordsByDateUseCase>((ref) {
+final getRecordsByDateUseCaseProvider = Provider<GetRecordsByDateUseCase>((
+  ref,
+) {
   final repository = ref.watch(recordRepositoryProvider);
   return GetRecordsByDateUseCase(repository);
 });
 
 /// RecordFormNotifier Provider
 final recordFormNotifierProvider =
-    StateNotifierProvider.autoDispose<RecordFormNotifier, RecordFormState>(
-        (ref) {
-  final createRecordUseCase = ref.watch(createRecordUseCaseProvider);
-  return RecordFormNotifier(createRecordUseCase);
-});
+    StateNotifierProvider.autoDispose<RecordFormNotifier, RecordFormState>((
+      ref,
+    ) {
+      final createRecordUseCase = ref.watch(createRecordUseCaseProvider);
+      return RecordFormNotifier(createRecordUseCase);
+    });
 
 /// 전체 Records Provider (Calendar에서 사용)
 final recordsProvider = FutureProvider<List<RecordEntity>>((ref) async {

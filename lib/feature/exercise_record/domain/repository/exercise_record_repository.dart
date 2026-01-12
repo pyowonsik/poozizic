@@ -1,4 +1,4 @@
-import '../entity/exercise_record_entity.dart';
+import 'package:poozizic/feature/exercise_record/domain/entity/exercise_record_entity.dart';
 
 /// ExerciseRecord Repository 인터페이스
 abstract class ExerciseRecordRepository {

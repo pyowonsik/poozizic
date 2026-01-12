@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
 
+/// 시간 스텝
 class TimeStep extends StatelessWidget {
+  /// 시간 스텝 생성자
+  /// [selectedDuration] 선택된 시간
+  /// [onDurationChanged] 시간 변경 콜백
+  /// [onSubmit] 제출 콜백
+  /// [isSubmitting] 제출 중 여부
   const TimeStep({
-    super.key,
     required this.selectedDuration,
     required this.onDurationChanged,
     required this.onSubmit,
     required this.isSubmitting,
+    super.key,
   });
 
+  /// 선택된 시간
   final int selectedDuration;
+
+  /// 시간 변경 콜백
   final ValueChanged<int> onDurationChanged;
+
+  /// 제출 콜백
   final VoidCallback onSubmit;
+
+  /// 제출 중 여부
   final bool isSubmitting;
 
   @override
@@ -32,10 +45,7 @@ class TimeStep extends StatelessWidget {
           const SizedBox(height: 8),
           const Text(
             '대략적인 시간을 선택하세요',
-            style: TextStyle(
-              fontSize: 14,
-              color: Color(0xFF999999),
-            ),
+            style: TextStyle(fontSize: 14, color: Color(0xFF999999)),
           ),
           const SizedBox(height: 48),
           Container(
@@ -56,10 +66,7 @@ class TimeStep extends StatelessWidget {
                 ),
                 const Text(
                   '분',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color(0xFF666666),
-                  ),
+                  style: TextStyle(fontSize: 20, color: Color(0xFF666666)),
                 ),
                 const SizedBox(height: 32),
                 SliderTheme(
@@ -67,7 +74,9 @@ class TimeStep extends StatelessWidget {
                     activeTrackColor: const Color(0xFF5E35B1),
                     inactiveTrackColor: const Color(0xFFE0E0E0),
                     thumbColor: const Color(0xFF5E35B1),
-                    overlayColor: const Color(0xFF5E35B1).withValues(alpha: 0.2),
+                    overlayColor: const Color(
+                      0xFF5E35B1,
+                    ).withValues(alpha: 0.2),
                     thumbShape: const RoundSliderThumbShape(
                       enabledThumbRadius: 12,
                     ),
@@ -86,17 +95,11 @@ class TimeStep extends StatelessWidget {
                   children: [
                     Text(
                       '1분',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF999999),
-                      ),
+                      style: TextStyle(fontSize: 12, color: Color(0xFF999999)),
                     ),
                     Text(
                       '30분',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF999999),
-                      ),
+                      style: TextStyle(fontSize: 12, color: Color(0xFF999999)),
                     ),
                   ],
                 ),

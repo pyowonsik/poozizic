@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../record/domain/entity/record_entity.dart';
-import '../../domain/entity/calendar_statistics.dart';
-import '../../domain/repository/calendar_repository.dart';
-import 'calendar_state.dart';
+import 'package:poozizic/feature/calendar/domain/entity/calendar_statistics.dart';
+import 'package:poozizic/feature/calendar/domain/repository/calendar_repository.dart';
+import 'package:poozizic/feature/calendar/presentation/provider/calendar_state.dart';
+import 'package:poozizic/feature/record/domain/entity/record_entity.dart';
 
+/// Calendar Notifier
 class CalendarNotifier extends StateNotifier<CalendarState> {
+  /// Calendar Notifier 생성자
   CalendarNotifier(this._repository) : super(const CalendarInitial()) {
     _init();
   }
@@ -18,37 +20,32 @@ class CalendarNotifier extends StateNotifier<CalendarState> {
   Future<void> _init() async {
     final now = DateTime.now();
     await loadMonth(now);
-    selectDay(now);
+    await selectDay(now);
   }
 
+  /// 월 로드
   Future<void> loadMonth(DateTime month) async {
     state = const CalendarLoading();
 
     final recordDaysResult = await _repository.getRecordDaysInMonth(month);
     final statisticsResult = await _repository.getStatisticsByMonth(month);
 
-    Map<DateTime, List<RecordEntity>> recordDays = {};
-    CalendarStatistics statistics = CalendarStatistics.empty();
+    var recordDays = <DateTime, List<RecordEntity>>{};
+    var statistics = CalendarStatistics.empty();
 
-    recordDaysResult.fold(
-      (failure) => null,
-      (data) => recordDays = data,
-    );
+    recordDaysResult.fold((failure) => null, (data) => recordDays = data);
 
-    statisticsResult.fold(
-      (failure) => null,
-      (data) => statistics = data,
-    );
+    statisticsResult.fold((failure) => null, (data) => statistics = data);
 
     state = CalendarLoaded(
       focusedMonth: month,
-      selectedDay: null,
       recordDays: recordDays,
       selectedDayRecords: [],
       statistics: statistics,
     );
   }
 
+  /// 날짜 선택
   Future<void> selectDay(DateTime day) async {
     final current = state;
     if (current is! CalendarLoaded) return;
@@ -72,10 +69,12 @@ class CalendarNotifier extends StateNotifier<CalendarState> {
     );
   }
 
+  /// 월 변경
   Future<void> changeMonth(DateTime newMonth) async {
     await loadMonth(newMonth);
   }
 
+  /// 새로고침
   Future<void> refresh() async {
     final current = state;
     if (current is CalendarLoaded) {

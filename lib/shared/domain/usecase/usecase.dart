@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import '../failure/failure.dart';
+import 'package:poozizic/shared/domain/failure/failure.dart';
 
 /// UseCase 인터페이스
 ///
@@ -21,5 +21,6 @@ abstract class UseCase<T, Params, Repo> {
 
 /// 파라미터가 필요 없는 UseCase용
 class NoParams {
+  /// 파라미터 없음 생성자
   const NoParams();
 }

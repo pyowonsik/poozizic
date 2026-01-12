@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../di/home_providers.dart';
-import '../provider/home_notifier.dart';
-import '../provider/home_state.dart';
-import '../widget/today_status_card.dart';
-import '../widget/water_progress_section.dart';
-import '../widget/health_score_card.dart';
-import '../widget/recent_records_section.dart';
+import 'package:poozizic/feature/home/di/home_providers.dart';
+import 'package:poozizic/feature/home/presentation/provider/home_notifier.dart';
+import 'package:poozizic/feature/home/presentation/provider/home_state.dart';
+import 'package:poozizic/feature/home/presentation/widget/health_score_card.dart';
+import 'package:poozizic/feature/home/presentation/widget/recent_records_section.dart';
+import 'package:poozizic/feature/home/presentation/widget/today_status_card.dart';
+import 'package:poozizic/feature/home/presentation/widget/water_progress_section.dart';
 
 /// 홈 페이지
 class HomePage extends ConsumerWidget {
+  /// 홈 페이지 생성자
+  /// [key] 키
   const HomePage({super.key});
 
   @override
@@ -29,20 +31,16 @@ class HomePage extends ConsumerWidget {
         centerTitle: false,
         elevation: 0,
       ),
-      body: Container(
+      body: ColoredBox(
         color: const Color(0xFFF8F9FA),
-        child: SafeArea(
-          child: _buildBody(state, notifier),
-        ),
+        child: SafeArea(child: _buildBody(state, notifier)),
       ),
     );
   }
 
   Widget _buildBody(HomeState state, HomeNotifier notifier) {
     if (state is HomeLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     if (state is HomeError) {

@@ -1,16 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/datasource/meal_record_local_datasource.dart';
-import '../data/repository/meal_record_repository_impl.dart';
-import '../domain/entity/meal_record_entity.dart';
-import '../domain/repository/meal_record_repository.dart';
-import '../domain/usecase/create_meal_record_usecase.dart';
-import '../domain/usecase/get_meal_records_by_date_usecase.dart';
-import '../presentation/provider/meal_record_form_notifier.dart';
-import '../presentation/provider/meal_record_form_state.dart';
+import 'package:poozizic/feature/meal_record/data/datasource/meal_record_local_datasource.dart';
+import 'package:poozizic/feature/meal_record/data/repository/meal_record_repository_impl.dart';
+import 'package:poozizic/feature/meal_record/domain/entity/meal_record_entity.dart';
+import 'package:poozizic/feature/meal_record/domain/repository/meal_record_repository.dart';
+import 'package:poozizic/feature/meal_record/domain/usecase/create_meal_record_usecase.dart';
+import 'package:poozizic/feature/meal_record/domain/usecase/get_meal_records_by_date_usecase.dart';
+import 'package:poozizic/feature/meal_record/presentation/provider/meal_record_form_notifier.dart';
+import 'package:poozizic/feature/meal_record/presentation/provider/meal_record_form_state.dart';
 
 /// DataSource Provider (Singleton으로 데이터 유지)
-final mealRecordLocalDataSourceProvider =
-    Provider<MealRecordLocalDataSource>((ref) {
+final mealRecordLocalDataSourceProvider = Provider<MealRecordLocalDataSource>((
+  ref,
+) {
   return MealRecordLocalDataSource();
 });
 
@@ -21,8 +22,9 @@ final mealRecordRepositoryProvider = Provider<MealRecordRepository>((ref) {
 });
 
 /// CreateMealRecordUseCase Provider
-final createMealRecordUseCaseProvider =
-    Provider<CreateMealRecordUseCase>((ref) {
+final createMealRecordUseCaseProvider = Provider<CreateMealRecordUseCase>((
+  ref,
+) {
   final repository = ref.watch(mealRecordRepositoryProvider);
   return CreateMealRecordUseCase(repository);
 });
@@ -30,20 +32,26 @@ final createMealRecordUseCaseProvider =
 /// GetMealRecordsByDateUseCase Provider
 final getMealRecordsByDateUseCaseProvider =
     Provider<GetMealRecordsByDateUseCase>((ref) {
-  final repository = ref.watch(mealRecordRepositoryProvider);
-  return GetMealRecordsByDateUseCase(repository);
-});
+      final repository = ref.watch(mealRecordRepositoryProvider);
+      return GetMealRecordsByDateUseCase(repository);
+    });
 
 /// MealRecordFormNotifier Provider (autoDispose for form screens)
-final mealRecordFormNotifierProvider = StateNotifierProvider.autoDispose<
-    MealRecordFormNotifier, MealRecordFormState>((ref) {
-  final createMealRecordUseCase = ref.watch(createMealRecordUseCaseProvider);
-  return MealRecordFormNotifier(createMealRecordUseCase);
-});
+final mealRecordFormNotifierProvider =
+    StateNotifierProvider.autoDispose<
+      MealRecordFormNotifier,
+      MealRecordFormState
+    >((ref) {
+      final createMealRecordUseCase = ref.watch(
+        createMealRecordUseCaseProvider,
+      );
+      return MealRecordFormNotifier(createMealRecordUseCase);
+    });
 
 /// 오늘 식사 기록 Provider
-final todayMealRecordsProvider =
-    FutureProvider<List<MealRecordEntity>>((ref) async {
+final todayMealRecordsProvider = FutureProvider<List<MealRecordEntity>>((
+  ref,
+) async {
   final useCase = ref.watch(getMealRecordsByDateUseCaseProvider);
   final result = await useCase(DateTime.now());
   return result.fold(
@@ -64,6 +72,7 @@ final mealRecordsRefreshProvider = StateProvider<int>((ref) => 0);
 /// 식사 기록 갱신 트리거
 void refreshMealRecords(WidgetRef ref) {
   ref.read(mealRecordsRefreshProvider.notifier).state++;
-  ref.invalidate(todayMealRecordsProvider);
-  ref.invalidate(todayMealCountProvider);
+  ref
+    ..invalidate(todayMealRecordsProvider)
+    ..invalidate(todayMealCountProvider);
 }

@@ -1,20 +1,32 @@
 /// 운동 기록 엔티티
 class ExerciseRecordEntity {
-  final int? id;
-  final DateTime dateTime;
-  final int exerciseType; // 0-5 (달리기, 걷기, 자전거, 수영, 요가, 웨이트)
-  final int durationMinutes;
-  final int intensity; // 0: 가볍게, 1: 보통, 2: 격하게
-  final DateTime createdAt;
-
+  /// 운동 기록 엔티티 생성자
   const ExerciseRecordEntity({
-    this.id,
     required this.dateTime,
     required this.exerciseType,
     required this.durationMinutes,
     required this.intensity,
     required this.createdAt,
+    this.id,
   });
+
+  /// 운동 기록 ID
+  final int? id;
+
+  /// 운동 기록 날짜
+  final DateTime dateTime;
+
+  /// 운동 타입
+  final int exerciseType; // 0-5 (달리기, 걷기, 자전거, 수영, 요가, 웨이트)
+
+  /// 운동 시간
+  final int durationMinutes;
+
+  /// 운동 강도
+  final int intensity; // 0: 가볍게, 1: 보통, 2: 격하게
+
+  /// 운동 기록 생성 시간
+  final DateTime createdAt;
 
   /// 운동 타입 이름
   String get exerciseTypeName {
@@ -84,6 +96,7 @@ class ExerciseRecordEntity {
     }
   }
 
+  /// 운동 기록 엔티티 복사
   ExerciseRecordEntity copyWith({
     int? id,
     DateTime? dateTime,

@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
-import '../../domain/entity/settings_entity.dart';
+import 'package:poozizic/feature/settings/domain/entity/settings_entity.dart';
 
+/// 프라이버시 섹션 위젯
 class PrivacySection extends StatelessWidget {
+  /// 프라이버시 섹션 위젯 생성자
+  /// [settings] 설정 엔티티
+  /// [onAppLockChanged] 앱 잠금 변경 콜백
+  /// [onHideNotificationContentChanged] 알림에서 내용 숨김 변경 콜백
+  /// [onCloudBackupChanged] 클라우드 백업 변경 콜백
   const PrivacySection({
-    super.key,
     required this.settings,
     required this.onAppLockChanged,
     required this.onHideNotificationContentChanged,
     required this.onCloudBackupChanged,
+    super.key,
   });
 
+  /// 설정 엔티티
   final SettingsEntity settings;
+
+  /// 앱 잠금 변경 콜백
   final ValueChanged<bool> onAppLockChanged;
+
+  /// 알림에서 내용 숨김 변경 콜백
   final ValueChanged<bool> onHideNotificationContentChanged;
+
+  /// 클라우드 백업 변경 콜백
   final ValueChanged<bool> onCloudBackupChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,10 +84,7 @@ class PrivacySection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 15,
-              color: Color(0xFF000000),
-            ),
+            style: const TextStyle(fontSize: 15, color: Color(0xFF000000)),
           ),
           Switch(
             value: value,

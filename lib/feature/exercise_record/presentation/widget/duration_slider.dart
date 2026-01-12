@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
-import '../provider/exercise_record_form_notifier.dart';
+import 'package:poozizic/feature/exercise_record/presentation/provider/exercise_record_form_notifier.dart';
 
 /// 운동 시간 슬라이더 위젯
 class DurationSlider extends StatelessWidget {
-  final double duration;
-  final void Function(double duration) onDurationChanged;
-  final void Function(int minutes) onQuickDurationSelected;
-
+  /// 운동 시간 슬라이더 위젯 생성자
+  /// [duration] 운동 시간
+  /// [onDurationChanged] 운동 시간 변경 콜백
+  /// [onQuickDurationSelected] 빠른 시간 선택 콜백
   const DurationSlider({
-    super.key,
     required this.duration,
     required this.onDurationChanged,
     required this.onQuickDurationSelected,
+    super.key,
   });
+
+  /// 운동 시간
+  final double duration;
+
+  /// 운동 시간 변경 콜백
+  final void Function(double duration) onDurationChanged;
+
+  /// 빠른 시간 선택 콜백
+  final void Function(int minutes) onQuickDurationSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +54,7 @@ class DurationSlider extends StatelessWidget {
                   inactiveTrackColor: const Color(0xFFE0E0E0),
                   thumbColor: const Color(0xFF4CAF50),
                   overlayColor: const Color(0xFF4CAF50).withValues(alpha: 0.2),
-                  thumbShape:
-                      const RoundSliderThumbShape(enabledThumbRadius: 10),
+                  thumbShape: const RoundSliderThumbShape(),
                   trackHeight: 4,
                 ),
                 child: Slider(
@@ -80,41 +88,44 @@ class DurationSlider extends StatelessWidget {
         // 빠른 시간 선택
         Row(
           children: List.generate(
-              ExerciseRecordFormNotifier.quickDurations.length, (index) {
-            final quickDuration =
-                ExerciseRecordFormNotifier.quickDurations[index];
-            return Expanded(
-              child: Container(
-                margin: EdgeInsets.only(
-                  right: index <
-                          ExerciseRecordFormNotifier.quickDurations.length - 1
-                      ? 8
-                      : 0,
-                ),
-                child: OutlinedButton(
-                  onPressed: () => onQuickDurationSelected(quickDuration),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    side: const BorderSide(
-                      color: Color(0xFFE0E0E0),
-                      width: 1.5,
+            ExerciseRecordFormNotifier.quickDurations.length,
+            (index) {
+              final quickDuration =
+                  ExerciseRecordFormNotifier.quickDurations[index];
+              return Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    right:
+                        index <
+                            ExerciseRecordFormNotifier.quickDurations.length - 1
+                        ? 8
+                        : 0,
+                  ),
+                  child: OutlinedButton(
+                    onPressed: () => onQuickDurationSelected(quickDuration),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      side: const BorderSide(
+                        color: Color(0xFFE0E0E0),
+                        width: 1.5,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                    child: Text(
+                      '$quickDuration분',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF666666),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    '$quickDuration분',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF666666),
-                    ),
-                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            },
+          ),
         ),
       ],
     );
