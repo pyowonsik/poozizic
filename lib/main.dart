@@ -9,6 +9,8 @@ import 'screens/water_record_screen.dart';
 import 'screens/exercise_record_screen.dart';
 import 'screens/settings_screen.dart';
 
+// 해당 브랜치는 demo 브랜치 입니다.
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ko_KR', null);
@@ -118,10 +120,7 @@ class _MainScreenState extends State<MainScreen> {
             const SizedBox(height: 8),
             const Text(
               '기록할 항목을 선택하세요',
-              style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF999999),
-              ),
+              style: TextStyle(fontSize: 14, color: Color(0xFF999999)),
             ),
             const SizedBox(height: 24),
             _buildRecordTypeButton(
@@ -231,11 +230,7 @@ class _MainScreenState extends State<MainScreen> {
                 color: Colors.white.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-                size: 28,
-              ),
+              child: Icon(icon, color: Colors.white, size: 28),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -261,11 +256,7 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
-            const Icon(
-              Icons.chevron_right,
-              color: Colors.white,
-              size: 28,
-            ),
+            const Icon(Icons.chevron_right, color: Colors.white, size: 28),
           ],
         ),
       ),
@@ -275,10 +266,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _selectedIndex, children: _screens),
       floatingActionButton: Container(
         width: 64,
         height: 64,
@@ -287,10 +275,7 @@ class _MainScreenState extends State<MainScreen> {
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(0xFFFF6B35),
-              Color(0xFFFF5722),
-            ],
+            colors: [Color(0xFFFF6B35), Color(0xFFFF5722)],
           ),
           boxShadow: [
             BoxShadow(
@@ -306,11 +291,7 @@ class _MainScreenState extends State<MainScreen> {
           },
           backgroundColor: Colors.transparent,
           elevation: 0,
-          child: const Icon(
-            Icons.add,
-            size: 32,
-            color: Colors.white,
-          ),
+          child: const Icon(Icons.add, size: 32, color: Colors.white),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -336,9 +317,19 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildNavItem(Icons.home_outlined, Icons.home, '홈', 0),
-                _buildNavItem(Icons.calendar_today_outlined, Icons.calendar_today, '캘린더', 1),
+                _buildNavItem(
+                  Icons.calendar_today_outlined,
+                  Icons.calendar_today,
+                  '캘린더',
+                  1,
+                ),
                 const SizedBox(width: 48), // 중앙 FAB 공간
-                _buildNavItem(Icons.bar_chart_outlined, Icons.bar_chart, '분석', 3),
+                _buildNavItem(
+                  Icons.bar_chart_outlined,
+                  Icons.bar_chart,
+                  '분석',
+                  3,
+                ),
                 _buildNavItem(Icons.settings_outlined, Icons.settings, '설정', 4),
               ],
             ),
@@ -348,7 +339,12 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _buildNavItem(IconData icon, IconData activeIcon, String label, int index) {
+  Widget _buildNavItem(
+    IconData icon,
+    IconData activeIcon,
+    String label,
+    int index,
+  ) {
     final isSelected = _selectedIndex == index;
     return Expanded(
       child: InkWell(
@@ -360,7 +356,9 @@ class _MainScreenState extends State<MainScreen> {
             Icon(
               isSelected ? activeIcon : icon,
               size: 24,
-              color: isSelected ? const Color(0xFFFF6B35) : const Color(0xFF9E9E9E),
+              color: isSelected
+                  ? const Color(0xFFFF6B35)
+                  : const Color(0xFF9E9E9E),
             ),
             const SizedBox(height: 4),
             Text(
@@ -368,7 +366,9 @@ class _MainScreenState extends State<MainScreen> {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                color: isSelected ? const Color(0xFFFF6B35) : const Color(0xFF9E9E9E),
+                color: isSelected
+                    ? const Color(0xFFFF6B35)
+                    : const Color(0xFF9E9E9E),
               ),
             ),
           ],
